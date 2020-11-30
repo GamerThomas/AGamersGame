@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "MM+JnAyQX9/79/9d/kxPSVsYHK2gyN0keXNVGO42umTUmp/4yjYe1Lrmuev1UYbtxSdLg+GtXG1qPgYr1hMBpA==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\PCLT\\source\\repos\\AGamersGame\\AGamersGame\\AGamersGame.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\PCLT\\.nuget\\packages\\monogame.content.builder.task\\3.8.0.1641\\monogame.content.builder.task.3.8.0.1641.nupkg.sha512",
+    "C:\\Users\\PCLT\\.nuget\\packages\\monogame.framework.desktopgl\\3.8.0.1641\\monogame.framework.desktopgl.3.8.0.1641.nupkg.sha512"
+  ],
+  "logs": []
+}

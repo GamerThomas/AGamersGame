@@ -26,9 +26,10 @@ namespace AGamersGame
 
         PlayerSprite playerSprite;
         BackSprite backSprite;
-        BadSprite1 badSprite1;
+
 
         List<List<PlatformSprite>> levels = new List<List<PlatformSprite>>();
+        List<List<BadSprite1>>badSprite1 = new List<List<BadSprite1>>();
 
 
         public Game1()
@@ -62,19 +63,26 @@ namespace AGamersGame
 
             playerSprite = new PlayerSprite(playerTxr, whiteBox, new Vector2(50, 50));
             backSprite = new BackSprite(backTxr, whiteBox, new Vector2(780, 135));
-            badSprite1 = new BadSprite1(badG1Txr, whiteBox, new Vector2(1050, 220));
 
+            
             BuildLevels();
+            AddEnemy();
         }
 
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-            playerSprite.Update(gameTime, levels[levelNumber]);
-            badSprite1.Update(gameTime, levels[levelNumber]);
+            playerSprite.Update(gameTime, levels[levelNumber],badSprite1[levelNumber]);
+
+            foreach (BadSprite1 badSprite in badSprite1[levelNumber])
+            {
+                badSprite.Update(gameTime, levels[levelNumber]);
+            }
+
 
             if (playerSprite.spritePos.Y > screenSize.Y + 50) playerSprite.ResetPlayer(new Vector2(50, 50));
+            if (playerSprite.playerDead) playerSprite.ResetPlayer(new Vector2(50, 50));
 
             base.Update(gameTime);
         }
@@ -89,7 +97,7 @@ namespace AGamersGame
 
             backSprite.Draw(_spriteBatch, gameTime);
 
-            badSprite1.Draw(_spriteBatch, gameTime);
+            foreach (BadSprite1 badSprite in badSprite1[levelNumber]) badSprite.Draw(_spriteBatch, gameTime);
 
             playerSprite.Draw(_spriteBatch, gameTime);
 
@@ -119,6 +127,13 @@ namespace AGamersGame
             levels[0].Add(new PlatformSprite(platformTxr, whiteBox, new Vector2(1150, 300)));
             levels[0].Add(new PlatformSprite(platformTxr, whiteBox, new Vector2(1250, 300)));
 
+        }
+
+        void AddEnemy()
+        {
+            badSprite1.Add(new List<BadSprite1>());
+            badSprite1[0].Add(new BadSprite1(badG1Txr, whiteBox, new Vector2(1050, 250)));
+            badSprite1[0].Add(new BadSprite1(badG1Txr, whiteBox, new Vector2(250, 250)));
         }
     }
 }

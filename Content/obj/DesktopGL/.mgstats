@@ -1,6 +1,6 @@
 Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
-"C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/BackAnim.png","C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/bin/DesktopGL/BackAnim.xnb","TextureProcessor","Texture2DContent",6303,460085,0.1209889
-"C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/Background1.png","C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/bin/DesktopGL/Background1.xnb","TextureProcessor","Texture2DContent",37290,2560085,0.0597105
-"C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/BadGuySheet1.png","C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/bin/DesktopGL/BadGuySheet1.xnb","TextureProcessor","Texture2DContent",1334,80085,0.0166804
-"C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/PlatSheet1.png","C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/bin/DesktopGL/PlatSheet1.xnb","TextureProcessor","Texture2DContent",958,40085,0.0095874
-"C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/SpriteSheetT.png","C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/bin/DesktopGL/SpriteSheetT.xnb","TextureProcessor","Texture2DContent",7706,80085,0.0174389
+"C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/BackAnim.png","C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/bin/DesktopGL/BackAnim.xnb","TextureProcessor","Texture2DContent",6303,460085,0.1251223
+"C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/Background1.png","C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/bin/DesktopGL/Background1.xnb","TextureProcessor","Texture2DContent",37290,2560085,0.073368
+"C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/BadGuySheet1.png","C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/bin/DesktopGL/BadGuySheet1.xnb","TextureProcessor","Texture2DContent",12958,80085,0.0350414
+"C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/PlatSheet1.png","C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/bin/DesktopGL/PlatSheet1.xnb","TextureProcessor","Texture2DContent",958,40085,0.0098745
+"C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/SpriteSheetT.png","C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/bin/DesktopGL/SpriteSheetT.xnb","TextureProcessor","Texture2DContent",2271,120085,0.0156007

@@ -1,6 +1,6 @@
 Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
 "C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/BackAnim.png","C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/bin/DesktopGL/Content/BackAnim.xnb","TextureProcessor","Texture2DContent",6303,460085,0.1175572
 "C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/Background1.png","C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/bin/DesktopGL/Content/Background1.xnb","TextureProcessor","Texture2DContent",37290,2560085,0.0698097
-"C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/BadGuySheet1.png","C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/bin/DesktopGL/Content/BadGuySheet1.xnb","TextureProcessor","Texture2DContent",1334,80085,0.0066733
+"C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/BadGuySheet1.png","C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/bin/DesktopGL/Content/BadGuySheet1.xnb","TextureProcessor","Texture2DContent",12958,80085,0.1082
 "C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/PlatSheet1.png","C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/bin/DesktopGL/Content/PlatSheet1.xnb","TextureProcessor","Texture2DContent",958,40085,0.0022138
-"C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/SpriteSheetT.png","C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/bin/DesktopGL/Content/SpriteSheetT.xnb","TextureProcessor","Texture2DContent",7706,80085,0.0028167
+"C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/SpriteSheetT.png","C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/bin/DesktopGL/Content/SpriteSheetT.xnb","TextureProcessor","Texture2DContent",2271,120085,0.1343669

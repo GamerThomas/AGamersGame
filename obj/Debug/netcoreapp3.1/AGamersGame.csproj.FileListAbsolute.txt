@@ -26,3 +26,6 @@ C:\Users\PCLT\source\repos\AGamersGame\AGamersGame\obj\Debug\netcoreapp3.1\AGame
 C:\Users\PCLT\source\repos\AGamersGame\AGamersGame\obj\Debug\netcoreapp3.1\AGamersGame.dll
 C:\Users\PCLT\source\repos\AGamersGame\AGamersGame\obj\Debug\netcoreapp3.1\AGamersGame.pdb
 C:\Users\PCLT\source\repos\AGamersGame\AGamersGame\obj\Debug\netcoreapp3.1\AGamersGame.genruntimeconfig.cache
+C:\Users\PCLT\source\repos\AGamersGame\AGamersGame\bin\Debug\netcoreapp3.1\Content\KeySheet.xnb
+C:\Users\PCLT\source\repos\AGamersGame\AGamersGame\bin\Debug\netcoreapp3.1\Content\Door.xnb
+C:\Users\PCLT\source\repos\AGamersGame\AGamersGame\bin\Debug\netcoreapp3.1\Content\Blank.xnb

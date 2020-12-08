@@ -77,7 +77,7 @@ namespace AGamersGame
         }
 
 
-        public void Update(GameTime gameTime, List<PlatformSprite> platforms,List<BadSprite1> badSprite1)
+        public void Update(GameTime gameTime, List<PlatformSprite> platforms,List<BadSprite1> badSprite1,DoorSprite doorSprites,List<KeySprite> keySprites)
         {
             KeyboardState keyboardState = Keyboard.GetState();
 
@@ -231,15 +231,73 @@ namespace AGamersGame
                         }
                     }
                 }
+            }
 
-                if (!hasCollided && (walking || sprint)) falling = true;
+            
+            
+                if (checkCollisionBelow(doorSprites))
+                {
+                    hasCollided = true;
+                    while (checkCollision(doorSprites)) spritePos.Y--;
+                    spriteVelocity.Y = 0;
+                    jumping = false;
+                    falling = false;
+                }
+                else if (checkCollisionAbove(doorSprites))
+                {
+                    hasCollided = true;
+                    while (checkCollision(doorSprites)) spritePos.Y++;
+                    spriteVelocity.Y = 0;
+                    jumping = false;
+                    falling = true;
+                }
+                if (checkCollisionLeft(doorSprites))
+                {
+                    hasCollided = true;
+                    while (checkCollision(doorSprites)) spritePos.X--;
+                    spriteVelocity.X = 0;
+                }
+                else if (checkCollisionRight(doorSprites))
+                {
+                    hasCollided = true;
+                    while (checkCollision(doorSprites)) spritePos.X++;
+                    spriteVelocity.X = 0;
+                }
+            
 
-                if (walking) setAnim(3);
-                else if (sprint) setAnim(4);
-                else if (falling) setAnim(1);
-                else if (jumping) setAnim(2);
-                else if (attack) setAnim(5);
-                else setAnim(0);
+            if (!hasCollided && (walking || sprint)) falling = true;
+
+            if (walking) setAnim(3);
+            else if (sprint) setAnim(4);
+            else if (falling) setAnim(1);
+            else if (jumping) setAnim(2);
+            else if (attack) setAnim(5);
+            else setAnim(0);
+
+
+            foreach(KeySprite keys in keySprites)
+            {
+                if(checkCollisionAbove(keys))
+                {
+                    keys.hideKey = true;
+                    keys.open = true;
+                }
+                else if(checkCollisionBelow(keys))
+                {
+                    keys.hideKey = true;
+                    keys.open = true;
+                }
+                if (checkCollisionLeft(keys))
+                {
+                    keys.hideKey = true;
+                    keys.open = true;
+                }
+                else if(checkCollisionRight(keys))
+                {
+                    keys.hideKey = true;
+                    keys.open = true;
+                }
+
             }
         }
 

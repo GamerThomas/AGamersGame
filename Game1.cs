@@ -19,18 +19,23 @@ namespace AGamersGame
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        Texture2D playerTxr, backgroundTxr1, whiteBox, platformTxr, backTxr, badG1Txr;
+        Texture2D playerTxr, backgroundTxr1, whiteBox, platformTxr, backTxr, badG1Txr,keyTxr,doorTxr,blankTxr;
 
         Point screenSize = new Point(1280, 500);
         int levelNumber = 0;
 
         PlayerSprite playerSprite;
         BackSprite backSprite;
+        DoorSprite doorSprite;
+        NextSprite nextSprite;
+
 
 
         List<List<PlatformSprite>> levels = new List<List<PlatformSprite>>();
         List<List<BadSprite1>>badSprite1 = new List<List<BadSprite1>>();
+        List<List<KeySprite>> keySprite = new List<List<KeySprite>>();
 
+        public bool openDoor = false;
 
         public Game1()
         {
@@ -56,16 +61,26 @@ namespace AGamersGame
             platformTxr = Content.Load<Texture2D>("platSheet1");
             backTxr = Content.Load<Texture2D>("BackAnim");
             badG1Txr = Content.Load<Texture2D>("BadGuySheet1");
+            keyTxr = Content.Load<Texture2D>("KeySheet");
+            doorTxr = Content.Load<Texture2D>("Door");
+            blankTxr = Content.Load<Texture2D>("Blank");
+
 
             whiteBox = new Texture2D(GraphicsDevice, 1, 1);
             whiteBox.SetData(new[] { Color.White });
 
 
+
+
             playerSprite = new PlayerSprite(playerTxr, whiteBox, new Vector2(50, 50));
             backSprite = new BackSprite(backTxr, whiteBox, new Vector2(780, 135));
+            doorSprite = new DoorSprite(doorTxr, whiteBox, new Vector2(1205, 300));
+            nextSprite = new NextSprite(blankTxr,whiteBox,new Vector2(1260,300));
+
 
             
             BuildLevels();
+            AddKeys();
             AddEnemy();
         }
 
@@ -73,14 +88,28 @@ namespace AGamersGame
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-            playerSprite.Update(gameTime, levels[levelNumber],badSprite1[levelNumber]);
+
+           playerSprite.Update(gameTime, levels[levelNumber], badSprite1[levelNumber], doorSprite, keySprite[levelNumber]);
+
 
             foreach (BadSprite1 badSprite in badSprite1[levelNumber])
             {
                 badSprite.Update(gameTime, levels[levelNumber]);
             }
 
-
+            foreach (KeySprite keys in keySprite[levelNumber])
+            {
+                if(keys.hideKey)
+                {
+                    keys.setAnim(1);
+                    keys.isColliding = false;
+                }
+                if(keys.open)
+                {
+                    openDoor = true;
+                }
+            }
+            if(openDoor)doorSprite.Update();
             if (playerSprite.spritePos.Y > screenSize.Y + 50) playerSprite.ResetPlayer(new Vector2(50, 50));
             if (playerSprite.playerDead) playerSprite.ResetPlayer(new Vector2(50, 50));
 
@@ -99,6 +128,13 @@ namespace AGamersGame
 
             foreach (BadSprite1 badSprite in badSprite1[levelNumber]) badSprite.Draw(_spriteBatch, gameTime);
 
+
+            nextSprite.Draw(_spriteBatch, gameTime);
+            doorSprite.Draw(_spriteBatch, gameTime);
+        
+            foreach (KeySprite key in keySprite[levelNumber]) key.Draw(_spriteBatch, gameTime);
+            
+            
             playerSprite.Draw(_spriteBatch, gameTime);
 
 
@@ -134,6 +170,12 @@ namespace AGamersGame
             badSprite1.Add(new List<BadSprite1>());
             badSprite1[0].Add(new BadSprite1(badG1Txr, whiteBox, new Vector2(1050, 250)));
             badSprite1[0].Add(new BadSprite1(badG1Txr, whiteBox, new Vector2(250, 250)));
+        }
+
+        void AddKeys()
+        {
+            keySprite.Add(new List<KeySprite>());
+            keySprite[0].Add(new KeySprite(keyTxr,whiteBox,new Vector2(30, 298)));
         }
     }
 }

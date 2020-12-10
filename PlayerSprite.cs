@@ -17,6 +17,7 @@ namespace AGamersGame
         bool jumping, walking, falling, jumpIsPressed, sprint,attack;
 
         public bool playerDead = false;
+        public bool nextLevel = false;
 
 
         const float jumpSpeed = 5f;
@@ -77,7 +78,7 @@ namespace AGamersGame
         }
 
 
-        public void Update(GameTime gameTime, List<PlatformSprite> platforms,List<BadSprite1> badSprite1,DoorSprite doorSprites,List<KeySprite> keySprites)
+        public void Update(GameTime gameTime, List<PlatformSprite> platforms,List<BadSprite1> badSprite1,DoorSprite doorSprites,List<KeySprite> keySprites,NextSprite nextLev)
         {
             KeyboardState keyboardState = Keyboard.GetState();
 
@@ -263,7 +264,28 @@ namespace AGamersGame
                     while (checkCollision(doorSprites)) spritePos.X++;
                     spriteVelocity.X = 0;
                 }
-            
+
+            if (checkCollisionBelow(nextLev))
+            {
+                nextLevel = true;
+            }
+            else if (checkCollisionAbove(nextLev))
+            {
+                nextLevel = true;
+            }
+            else if (checkCollisionLeft(nextLev))
+            {
+                nextLevel = true;
+            }
+            else if (checkCollisionRight(nextLev))
+            {
+                nextLevel = true;
+            }
+            else
+            {
+                nextLevel = false;
+            }
+
 
             if (!hasCollided && (walking || sprint)) falling = true;
 

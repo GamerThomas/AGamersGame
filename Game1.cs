@@ -13,23 +13,26 @@ namespace AGamersGame
     //Add Attacking
     //Add More Levels
     //Add Harder Enemies
-    //Add Puzzle(Get Key Open Door)
+
+
     public class Game1 : Game
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        Texture2D playerTxr, backgroundTxr1, whiteBox, platformTxr, backTxr, badG1Txr,keyTxr,doorTxr,blankTxr;
+        Texture2D playerTxr, backgroundTxr1, whiteBox, platformTxr, backTxr, badG1Txr,keyTxr,doorTxr,blankTxr,healthTxr;
 
         Point screenSize = new Point(1280, 500);
-        int levelNumber = 0;
+        public int levelNumber = 0;
+
+        int lives = 3;
 
         PlayerSprite playerSprite;
         BackSprite backSprite;
         DoorSprite doorSprite;
         NextSprite nextSprite;
 
-
+        List<HealthSprite> healthSprites = new List<HealthSprite>();
 
         List<List<PlatformSprite>> levels = new List<List<PlatformSprite>>();
         List<List<BadSprite1>>badSprite1 = new List<List<BadSprite1>>();
@@ -64,6 +67,7 @@ namespace AGamersGame
             keyTxr = Content.Load<Texture2D>("KeySheet");
             doorTxr = Content.Load<Texture2D>("Door");
             blankTxr = Content.Load<Texture2D>("Blank");
+            healthTxr = Content.Load<Texture2D>("LivesSheet");
 
 
             whiteBox = new Texture2D(GraphicsDevice, 1, 1);
@@ -78,7 +82,12 @@ namespace AGamersGame
             nextSprite = new NextSprite(blankTxr,whiteBox,new Vector2(1260,300));
 
 
-            
+
+
+            healthSprites.Add(new HealthSprite(healthTxr, whiteBox, new Vector2(1190, 0)));
+            healthSprites.Add(new HealthSprite(healthTxr, whiteBox, new Vector2(1220, 0)));
+            healthSprites.Add(new HealthSprite(healthTxr, whiteBox, new Vector2(1250, 0)));
+
             BuildLevels();
             AddKeys();
             AddEnemy();
@@ -89,12 +98,16 @@ namespace AGamersGame
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-           playerSprite.Update(gameTime, levels[levelNumber], badSprite1[levelNumber], doorSprite, keySprite[levelNumber]);
+           playerSprite.Update(gameTime, levels[levelNumber], badSprite1[levelNumber], doorSprite, keySprite[levelNumber],nextSprite);
 
 
             foreach (BadSprite1 badSprite in badSprite1[levelNumber])
             {
                 badSprite.Update(gameTime, levels[levelNumber]);
+            }
+            foreach (HealthSprite health in healthSprites)
+            {
+                health.Update();
             }
 
             foreach (KeySprite keys in keySprite[levelNumber])
@@ -109,10 +122,24 @@ namespace AGamersGame
                     openDoor = true;
                 }
             }
-            if(openDoor)doorSprite.Update();
-            if (playerSprite.spritePos.Y > screenSize.Y + 50) playerSprite.ResetPlayer(new Vector2(50, 50));
-            if (playerSprite.playerDead) playerSprite.ResetPlayer(new Vector2(50, 50));
 
+            if (playerSprite.nextLevel == true)
+            {
+                playerSprite.ResetPlayer(new Vector2(60, 60));
+                levelNumber++;
+            }
+
+            if (openDoor)doorSprite.Update();
+            if (playerSprite.spritePos.Y > screenSize.Y + 50)
+            {
+                playerSprite.ResetPlayer(new Vector2(50, 50));
+                lives--;
+            }
+            if (playerSprite.playerDead)
+            {
+                playerSprite.ResetPlayer(new Vector2(50, 50));
+                lives--;
+            }
             base.Update(gameTime);
         }
 
@@ -140,6 +167,25 @@ namespace AGamersGame
 
             foreach (PlatformSprite platform in levels[levelNumber]) platform.Draw(_spriteBatch, gameTime);
 
+            if (lives == 3)
+            {
+                foreach (HealthSprite health in healthSprites) health.Draw(_spriteBatch, gameTime);
+            }
+            else if (lives == 2)
+            {
+                healthSprites[0].Draw(_spriteBatch, gameTime);
+                healthSprites[1].Draw(_spriteBatch, gameTime);
+            }
+            else if (lives == 1)
+            {
+                healthSprites[0].Draw(_spriteBatch, gameTime);
+            }
+            else
+            {
+                playerSprite.ResetPlayer(new Vector2(50, 50));
+                lives = 3;
+                levelNumber = 0;
+            }
 
             _spriteBatch.End();
 
@@ -163,6 +209,9 @@ namespace AGamersGame
             levels[0].Add(new PlatformSprite(platformTxr, whiteBox, new Vector2(1150, 300)));
             levels[0].Add(new PlatformSprite(platformTxr, whiteBox, new Vector2(1250, 300)));
 
+            levels.Add(new List<PlatformSprite>());
+            levels[1].Add(new PlatformSprite(platformTxr,whiteBox,new Vector2(50,100)));
+
         }
 
         void AddEnemy()
@@ -170,12 +219,19 @@ namespace AGamersGame
             badSprite1.Add(new List<BadSprite1>());
             badSprite1[0].Add(new BadSprite1(badG1Txr, whiteBox, new Vector2(1050, 250)));
             badSprite1[0].Add(new BadSprite1(badG1Txr, whiteBox, new Vector2(250, 250)));
+
+            badSprite1.Add(new List<BadSprite1>());
+            badSprite1[1].Add(new BadSprite1(badG1Txr, whiteBox, new Vector2(1050, 250)));
         }
 
         void AddKeys()
         {
             keySprite.Add(new List<KeySprite>());
             keySprite[0].Add(new KeySprite(keyTxr,whiteBox,new Vector2(30, 298)));
+
+            keySprite.Add(new List<KeySprite>());
+            keySprite[1].Add(new KeySprite(keyTxr, whiteBox, new Vector2(30, 298)));
         }
+
     }
 }

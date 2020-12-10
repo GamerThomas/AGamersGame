@@ -13,7 +13,7 @@ namespace AGamersGame
         {
             spriteOrigin = new Vector2(0.5f, 1f);
             isColliding = true;
-            drawCollision = true;
+            //drawCollision = true;
 
             animations = new List<List<Rectangle>>();
             animations.Add(new List<Rectangle>());

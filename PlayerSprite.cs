@@ -78,7 +78,7 @@ namespace AGamersGame
         }
 
 
-        public void Update(GameTime gameTime, List<PlatformSprite> platforms,List<BadSprite1> badSprite1,DoorSprite doorSprites,List<KeySprite> keySprites,NextSprite nextLev)
+        public void Update(GameTime gameTime, List<PlatformSprite> platforms, List<BadSprite1> badSprite1, DoorSprite doorSprites, List<KeySprite> keySprites, NextSprite nextLev, List<SpikeSprite> spike)
         {
             KeyboardState keyboardState = Keyboard.GetState();
 
@@ -206,7 +206,7 @@ namespace AGamersGame
                         }
                         else if (checkCollisionRight(badGuy))
                         {
-                           badGuy.enDead = true;
+                            badGuy.enDead = true;
                         }
                     }
                 }
@@ -234,36 +234,36 @@ namespace AGamersGame
                 }
             }
 
-            
-            
-                if (checkCollisionBelow(doorSprites))
-                {
-                    hasCollided = true;
-                    while (checkCollision(doorSprites)) spritePos.Y--;
-                    spriteVelocity.Y = 0;
-                    jumping = false;
-                    falling = false;
-                }
-                else if (checkCollisionAbove(doorSprites))
-                {
-                    hasCollided = true;
-                    while (checkCollision(doorSprites)) spritePos.Y++;
-                    spriteVelocity.Y = 0;
-                    jumping = false;
-                    falling = true;
-                }
-                if (checkCollisionLeft(doorSprites))
-                {
-                    hasCollided = true;
-                    while (checkCollision(doorSprites)) spritePos.X--;
-                    spriteVelocity.X = 0;
-                }
-                else if (checkCollisionRight(doorSprites))
-                {
-                    hasCollided = true;
-                    while (checkCollision(doorSprites)) spritePos.X++;
-                    spriteVelocity.X = 0;
-                }
+
+
+            if (checkCollisionBelow(doorSprites))
+            {
+                hasCollided = true;
+                while (checkCollision(doorSprites)) spritePos.Y--;
+                spriteVelocity.Y = 0;
+                jumping = false;
+                falling = false;
+            }
+            else if (checkCollisionAbove(doorSprites))
+            {
+                hasCollided = true;
+                while (checkCollision(doorSprites)) spritePos.Y++;
+                spriteVelocity.Y = 0;
+                jumping = false;
+                falling = true;
+            }
+            if (checkCollisionLeft(doorSprites))
+            {
+                hasCollided = true;
+                while (checkCollision(doorSprites)) spritePos.X--;
+                spriteVelocity.X = 0;
+            }
+            else if (checkCollisionRight(doorSprites))
+            {
+                hasCollided = true;
+                while (checkCollision(doorSprites)) spritePos.X++;
+                spriteVelocity.X = 0;
+            }
 
             if (checkCollisionBelow(nextLev))
             {
@@ -297,29 +297,55 @@ namespace AGamersGame
             else setAnim(0);
 
 
-            foreach(KeySprite keys in keySprites)
+            foreach (KeySprite keys in keySprites)
             {
-                if(checkCollisionAbove(keys))
+                if (checkCollisionAbove(keys))
                 {
                     keys.hideKey = true;
                     keys.open = true;
                 }
-                else if(checkCollisionBelow(keys))
+                else if (checkCollisionBelow(keys))
                 {
                     keys.hideKey = true;
                     keys.open = true;
                 }
-                if (checkCollisionLeft(keys))
+                else if (checkCollisionLeft(keys))
                 {
                     keys.hideKey = true;
                     keys.open = true;
                 }
-                else if(checkCollisionRight(keys))
+                else if (checkCollisionRight(keys))
                 {
                     keys.hideKey = true;
                     keys.open = true;
                 }
+                if (nextLevel)
+                {
+                    keys.hideKey = false;
+                    keys.open = false;
+                }
+            }
 
+
+
+            foreach (SpikeSprite spikes in spike)
+            {
+                if (checkCollisionAbove(spikes))
+                {
+                    playerDead = true;
+                }
+                else if (checkCollisionBelow(spikes))
+                {
+                    playerDead = true;
+                }
+                if (checkCollisionLeft(spikes))
+                {
+                    playerDead = true;
+                }
+                else if (checkCollisionRight(spikes))
+                {
+                    playerDead = true;
+                }
             }
         }
 
@@ -334,6 +360,7 @@ namespace AGamersGame
             falling = true;
             playerDead = false;
             attack = false;
+           
         }
 
     }

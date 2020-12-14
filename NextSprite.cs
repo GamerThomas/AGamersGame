@@ -17,6 +17,7 @@ namespace AGamersGame
             isColliding = true;
             //drawCollision = true;
 
+            animations = new List<List<Rectangle>>();
             animations.Add(new List<Rectangle>());
             animations[0].Add(new Rectangle(0, 0, 50, 50));
 

@@ -30,3 +30,5 @@ C:\Users\PCLT\source\repos\AGamersGame\AGamersGame\bin\Debug\netcoreapp3.1\Conte
 C:\Users\PCLT\source\repos\AGamersGame\AGamersGame\bin\Debug\netcoreapp3.1\Content\Door.xnb
 C:\Users\PCLT\source\repos\AGamersGame\AGamersGame\bin\Debug\netcoreapp3.1\Content\Blank.xnb
 C:\Users\PCLT\source\repos\AGamersGame\AGamersGame\bin\Debug\netcoreapp3.1\Content\LivesSheet.xnb
+C:\Users\PCLT\source\repos\AGamersGame\AGamersGame\bin\Debug\netcoreapp3.1\Content\Background2.xnb
+C:\Users\PCLT\source\repos\AGamersGame\AGamersGame\bin\Debug\netcoreapp3.1\Content\FallTxr.xnb

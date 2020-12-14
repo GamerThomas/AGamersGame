@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <SourceFile>C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/PlatSheet1.png</SourceFile>
-  <SourceTime>2020-12-14T10:10:55.5469777+00:00</SourceTime>
-  <DestFile>C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/bin/DesktopGL/Content/PlatSheet1.xnb</DestFile>
-  <DestTime>2020-12-14T10:16:17.4109118+00:00</DestTime>
+  <SourceFile>C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/FallTxr.png</SourceFile>
+  <SourceTime>2020-12-14T15:36:22.2535467+00:00</SourceTime>
+  <DestFile>C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/bin/DesktopGL/Content/FallTxr.xnb</DestFile>
+  <DestTime>2020-12-14T15:39:17.8305855+00:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2020-08-10T16:17:54+01:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

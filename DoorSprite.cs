@@ -32,5 +32,11 @@ namespace AGamersGame
             spritePos = new Vector2(-150, -150);
 
         }
+
+
+        public void Move(Vector2 newPos)
+        {
+            spritePos = newPos;
+        }
     }
 }

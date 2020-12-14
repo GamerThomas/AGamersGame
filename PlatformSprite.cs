@@ -16,6 +16,9 @@ namespace AGamersGame
             animations.Add(new List<Rectangle>());
             animations[0].Add(new Rectangle(0, 0, 100, 50));
             //drawCollision = true;
+
+            animations.Add(new List<Rectangle>());
+            animations[1].Add(new Rectangle(0,50,100,50));
         }
     }
 }

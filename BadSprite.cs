@@ -58,6 +58,12 @@ namespace AGamersGame
                 collisionInsetMin = new Vector2(1f, 0f);
                 collisionInsetMax = new Vector2(1f, 0f);
             }
+            else
+            {
+                setAnim(0);
+                collisionInsetMin = new Vector2(0.01f, 0.1f);
+                collisionInsetMax = new Vector2(0.01f, 0.02f);
+            }
 
             bool hasCollided = false;
 

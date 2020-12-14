@@ -17,6 +17,9 @@ namespace AGamersGame
             spriteOrigin = new Vector2(0f, 0f);
             //drawCollision = true;
 
+
+            frameTime = 0.7f;
+            animations = new List<List<Rectangle>>();
             animations.Add(new List<Rectangle>());
             animations[0].Add(new Rectangle(0, 0, 30, 40));
             animations[0].Add(new Rectangle(70, 0, 30, 40));

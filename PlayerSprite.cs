@@ -78,7 +78,7 @@ namespace AGamersGame
         }
 
 
-        public void Update(GameTime gameTime, List<PlatformSprite> platforms, List<BadSprite1> badSprite1, DoorSprite doorSprites, List<KeySprite> keySprites, NextSprite nextLev, List<SpikeSprite> spike)
+        public void Update(GameTime gameTime, List<PlatformSprite> platforms, List<BadSprite1> badSprite1, DoorSprite doorSprites, List<KeySprite> keySprites, NextSprite nextLev, List<SpikeSprite> spike,List<WallSprite> walls)
         {
             KeyboardState keyboardState = Keyboard.GetState();
 
@@ -234,7 +234,43 @@ namespace AGamersGame
                 }
             }
 
+            if (!attack)
+            {
+                foreach (WallSprite wall in walls)
+                {
+                    if (checkCollisionBelow(wall))
+                    {
+                        hasCollided = true;
+                        while (checkCollision(wall)) spritePos.Y++;
+                        spriteVelocity.Y = 0;
+                        jumping = false;
+                        falling = true;
+                    }
+                    else if (checkCollisionAbove(wall))
+                    {
+                        hasCollided = true;
+                        while (checkCollision(wall)) spritePos.Y--;
+                        spriteVelocity.Y = 0;
+                        jumping = false;
+                        falling = false ;
+                    }
+                    if (checkCollisionRight(wall))
+                    {
+                        hasCollided = true;
+                        while (checkCollision(wall)) spritePos.X++;
+                        spriteVelocity.X = 0;
 
+                    }
+                    else if (checkCollisionLeft(wall))
+                    {
+                        hasCollided = true;
+                        while (checkCollision(wall)) spritePos.X--;
+                        spriteVelocity.X = 0;
+
+                    }
+
+                }
+            }
 
             if (checkCollisionBelow(doorSprites))
             {

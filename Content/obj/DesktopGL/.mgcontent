@@ -15,8 +15,10 @@
     <File>C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/LivesSheet.png</File>
     <File>C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/PlatSheet1.png</File>
     <File>C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/SpriteSheetT.png</File>
+    <File>C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/WallSheet.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

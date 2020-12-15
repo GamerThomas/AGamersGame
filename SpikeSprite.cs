@@ -13,10 +13,10 @@ namespace AGamersGame
     {
 
 
-
+        float speed;
 
         Vector2 resetPos = new Vector2();
-        public SpikeSprite(Texture2D newSpriteSheet, Texture2D newCollisionTxr, Vector2 newLocation) : base(newSpriteSheet, newCollisionTxr, newLocation)
+        public SpikeSprite(Texture2D newSpriteSheet, Texture2D newCollisionTxr, Vector2 newLocation,float spikeSpeed) : base(newSpriteSheet, newCollisionTxr, newLocation)
         {
             spriteOrigin = new Vector2(0.5f, 1f);
             //drawCollision = true;
@@ -32,13 +32,14 @@ namespace AGamersGame
             animations.Add(new List<Rectangle>());
             animations[0].Add(new Rectangle(0, 0, 31, 30));
 
+            speed = spikeSpeed;
         }
 
 
 
         public void Update(GameTime gameTime)
         {
-                spriteVelocity.Y = +150f * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                spriteVelocity.Y = +speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
                 spritePos += spriteVelocity;   
         }
 

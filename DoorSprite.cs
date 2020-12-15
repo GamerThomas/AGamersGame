@@ -13,6 +13,8 @@ namespace AGamersGame
     {
         public bool open = false;
         const float openSpeed = 500f;
+
+        
         public DoorSprite(Texture2D newSpriteSheet, Texture2D newCollisionTxr, Vector2 newLocation) : base(newSpriteSheet, newCollisionTxr, newLocation)
         {
             spriteOrigin = new Vector2(0.5f, 1f);
@@ -31,6 +33,10 @@ namespace AGamersGame
         {
             spritePos = new Vector2(-150, -150);
 
+        }
+        public void level1()
+        {
+            spritePos = new Vector2(1205, 300);
         }
 
 

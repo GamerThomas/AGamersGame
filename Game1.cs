@@ -10,7 +10,6 @@ using System.Diagnostics;
 namespace AGamersGame
 {
 
-    //Add Attacking
     //Add More Levels
     //Add Harder Enemies
 
@@ -20,7 +19,7 @@ namespace AGamersGame
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        Texture2D playerTxr, backgroundTxr1,backgroundTxr2, whiteBox, platformTxr, backTxr, badG1Txr,keyTxr,doorTxr,blankTxr,healthTxr,fallTxr;
+        Texture2D playerTxr, backgroundTxr1, backgroundTxr2, whiteBox, platformTxr, backTxr, badG1Txr, keyTxr, doorTxr, blankTxr, healthTxr, fallTxr,wallTxr;
 
         Point screenSize = new Point(1280, 500);
         public int levelNumber = 0;
@@ -36,9 +35,10 @@ namespace AGamersGame
         List<HealthSprite> healthSprites = new List<HealthSprite>();
 
         List<List<PlatformSprite>> levels = new List<List<PlatformSprite>>();
-        List<List<BadSprite1>>badSprite1 = new List<List<BadSprite1>>();
+        List<List<BadSprite1>> badSprite1 = new List<List<BadSprite1>>();
         List<List<KeySprite>> keySprite = new List<List<KeySprite>>();
         List<List<SpikeSprite>> spikeSprites = new List<List<SpikeSprite>>();
+        List<List<WallSprite>> wallSprites = new List<List<WallSprite>>();
 
         public bool openDoor = false;
 
@@ -72,6 +72,7 @@ namespace AGamersGame
             blankTxr = Content.Load<Texture2D>("Blank");
             healthTxr = Content.Load<Texture2D>("LivesSheet");
             fallTxr = Content.Load<Texture2D>("FallTxr");
+            wallTxr = Content.Load<Texture2D>("WallSheet");
 
 
             whiteBox = new Texture2D(GraphicsDevice, 1, 1);
@@ -83,7 +84,7 @@ namespace AGamersGame
             playerSprite = new PlayerSprite(playerTxr, whiteBox, new Vector2(50, 50));
             backSprite = new BackSprite(backTxr, whiteBox, new Vector2(780, 135));
             doorSprite = new DoorSprite(doorTxr, whiteBox, new Vector2(1205, 300));
-            nextSprite = new NextSprite(blankTxr,whiteBox,new Vector2(1260,300));
+            nextSprite = new NextSprite(blankTxr, whiteBox, new Vector2(1260, 300));
 
 
 
@@ -96,20 +97,37 @@ namespace AGamersGame
             AddKeys();
             AddEnemy();
             AddSpike();
+            AddWalls();
         }
 
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-            if (Keyboard.GetState().IsKeyDown(Keys.PageUp)) levelNumber = 1;
+            if (Keyboard.GetState().IsKeyDown(Keys.PageUp))
+            { 
+                levelNumber = 1;
+                playerSprite.ResetPlayer(new Vector2(50, 50));
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.PageDown))
+            {
+                levelNumber = 2;
+                playerSprite.ResetPlayer(new Vector2(50, 50));
+            }
 
-            
-            
-            playerSprite.Update(gameTime, levels[levelNumber], badSprite1[levelNumber], doorSprite, keySprite[levelNumber],nextSprite,spikeSprites[levelNumber]);
 
+            playerSprite.Update(gameTime, levels[levelNumber], badSprite1[levelNumber], doorSprite, keySprite[levelNumber],nextSprite,spikeSprites[levelNumber],wallSprites[levelNumber]) ;
 
-                
+            if(levelNumber == 1)
+            {
+                nextSprite.level2();
+                doorSprite.Move(new Vector2(50, 530));
+            }
+            if(levelNumber ==0)
+            {
+                nextSprite.level1();
+                doorSprite.level1();
+            }
 
 
 
@@ -179,14 +197,6 @@ namespace AGamersGame
             }
 
 
-
-            if(openDoor == false && levelNumber ==1)
-            {
-                doorSprite.Move(new Vector2(50,530));
-            }
-
-
-
             if (openDoor)doorSprite.Update();
 
 
@@ -243,6 +253,7 @@ namespace AGamersGame
 
 
             foreach (PlatformSprite platform in levels[levelNumber]) platform.Draw(_spriteBatch, gameTime);
+            foreach (WallSprite walls in wallSprites[levelNumber]) walls.Draw(_spriteBatch, gameTime);
 
             if (lives == 3)
             {
@@ -262,7 +273,10 @@ namespace AGamersGame
                 playerSprite.ResetPlayer(new Vector2(50, 50));
                 lives = 3;
                 levelNumber = 0;
-                foreach (BadSprite1 badguy in badSprite1[levelNumber]) badguy.enDead = false;
+                foreach (KeySprite keys in keySprite[0]) keys.open = false;
+                foreach (KeySprite keys in keySprite[1]) keys.open = false;
+                foreach (BadSprite1 badguy in badSprite1[0]) badguy.enDead = false;
+                foreach (BadSprite1 badguy in badSprite1[1]) badguy.enDead = false;
 
             }
 
@@ -343,9 +357,108 @@ namespace AGamersGame
             levels[1].Add(new PlatformSprite(platformTxr, whiteBox, new Vector2(1300, 470)));
 
 
+            levels.Add(new List<PlatformSprite>());
+            levels[2].Add(new PlatformSprite(platformTxr, whiteBox, new Vector2(50, 60)));
+            levels[2].Add(new PlatformSprite(platformTxr, whiteBox, new Vector2(150, 60)));
+            levels[2].Add(new PlatformSprite(platformTxr, whiteBox, new Vector2(450, 60)));
+            levels[2].Add(new PlatformSprite(platformTxr, whiteBox, new Vector2(550, 60)));
+            levels[2].Add(new PlatformSprite(platformTxr, whiteBox, new Vector2(650, 60)));
+            levels[2].Add(new PlatformSprite(platformTxr, whiteBox, new Vector2(750, 60)));
+            levels[2].Add(new PlatformSprite(platformTxr, whiteBox, new Vector2(850, 60)));
+            levels[2].Add(new PlatformSprite(platformTxr, whiteBox, new Vector2(950, 60)));
+            levels[2].Add(new PlatformSprite(platformTxr, whiteBox, new Vector2(1050, 60)));
+            levels[2].Add(new PlatformSprite(platformTxr, whiteBox, new Vector2(1150, 60)));
+            levels[2].Add(new PlatformSprite(platformTxr, whiteBox, new Vector2(1250, 60)));
+
+            levels[2].Add(new PlatformSprite(platformTxr, whiteBox, new Vector2(200, 210)));
+            levels[2].Add(new PlatformSprite(platformTxr, whiteBox, new Vector2(300, 210)));
+
+            levels[2].Add(new PlatformSprite(platformTxr, whiteBox, new Vector2(350, 360)));
+            levels[2].Add(new PlatformSprite(platformTxr, whiteBox, new Vector2(450, 360)));
 
 
         }
+
+        void AddWalls()
+        {
+            wallSprites.Add(new List<WallSprite>());
+            //walls on the left of the screen lev 1
+            wallSprites[0].Add(new WallSprite(wallTxr, whiteBox, new Vector2(-20, 0)));
+            wallSprites[0].Add(new WallSprite(wallTxr, whiteBox, new Vector2(-20, 50)));
+            wallSprites[0].Add(new WallSprite(wallTxr, whiteBox, new Vector2(-20, 100)));
+            wallSprites[0].Add(new WallSprite(wallTxr, whiteBox, new Vector2(-20, 150)));
+            wallSprites[0].Add(new WallSprite(wallTxr, whiteBox, new Vector2(-20, 200)));
+            wallSprites[0].Add(new WallSprite(wallTxr, whiteBox, new Vector2(-20, 250)));
+            wallSprites[0].Add(new WallSprite(wallTxr, whiteBox, new Vector2(-20, 300)));
+            wallSprites[0].Add(new WallSprite(wallTxr, whiteBox, new Vector2(-20, 350)));
+            wallSprites[0].Add(new WallSprite(wallTxr, whiteBox, new Vector2(-20, 400)));
+            wallSprites[0].Add(new WallSprite(wallTxr, whiteBox, new Vector2(-20, 450)));
+            //wall on the right of the screen lev1
+            wallSprites[0].Add(new WallSprite(wallTxr, whiteBox, new Vector2(1300, 0)));
+            wallSprites[0].Add(new WallSprite(wallTxr, whiteBox, new Vector2(1300, 50)));
+            wallSprites[0].Add(new WallSprite(wallTxr, whiteBox, new Vector2(1300, 100)));
+            wallSprites[0].Add(new WallSprite(wallTxr, whiteBox, new Vector2(1300, 150)));
+            wallSprites[0].Add(new WallSprite(wallTxr, whiteBox, new Vector2(1300, 200)));
+            wallSprites[0].Add(new WallSprite(wallTxr, whiteBox, new Vector2(1300, 250)));
+            wallSprites[0].Add(new WallSprite(wallTxr, whiteBox, new Vector2(1300, 300)));
+            wallSprites[0].Add(new WallSprite(wallTxr, whiteBox, new Vector2(1300, 350)));
+            wallSprites[0].Add(new WallSprite(wallTxr, whiteBox, new Vector2(1300, 400)));
+            wallSprites[0].Add(new WallSprite(wallTxr, whiteBox, new Vector2(1300, 450)));
+
+            wallSprites.Add(new List<WallSprite>());
+            //walls on the left of the screen lev 2
+            wallSprites[1].Add(new WallSprite(wallTxr, whiteBox, new Vector2(-20, 0)));
+            wallSprites[1].Add(new WallSprite(wallTxr, whiteBox, new Vector2(-20, 50)));
+            wallSprites[1].Add(new WallSprite(wallTxr, whiteBox, new Vector2(-20, 100)));
+            wallSprites[1].Add(new WallSprite(wallTxr, whiteBox, new Vector2(-20, 150)));
+            wallSprites[1].Add(new WallSprite(wallTxr, whiteBox, new Vector2(-20, 200)));
+            wallSprites[1].Add(new WallSprite(wallTxr, whiteBox, new Vector2(-20, 250)));
+            wallSprites[1].Add(new WallSprite(wallTxr, whiteBox, new Vector2(-20, 300)));
+            wallSprites[1].Add(new WallSprite(wallTxr, whiteBox, new Vector2(-20, 350)));
+            wallSprites[1].Add(new WallSprite(wallTxr, whiteBox, new Vector2(-20, 400)));
+            wallSprites[1].Add(new WallSprite(wallTxr, whiteBox, new Vector2(-20, 450)));
+            //walls on the right of the screen lev 2
+            wallSprites[1].Add(new WallSprite(wallTxr, whiteBox, new Vector2(1300, 0)));
+            wallSprites[1].Add(new WallSprite(wallTxr, whiteBox, new Vector2(1300, 50)));
+            wallSprites[1].Add(new WallSprite(wallTxr, whiteBox, new Vector2(1300, 100)));
+            wallSprites[1].Add(new WallSprite(wallTxr, whiteBox, new Vector2(1300, 150)));
+            wallSprites[1].Add(new WallSprite(wallTxr, whiteBox, new Vector2(1300, 200)));
+            wallSprites[1].Add(new WallSprite(wallTxr, whiteBox, new Vector2(1300, 250)));
+            wallSprites[1].Add(new WallSprite(wallTxr, whiteBox, new Vector2(1300, 300)));
+            wallSprites[1].Add(new WallSprite(wallTxr, whiteBox, new Vector2(1300, 350)));
+            wallSprites[1].Add(new WallSprite(wallTxr, whiteBox, new Vector2(1300, 400)));
+            wallSprites[1].Add(new WallSprite(wallTxr, whiteBox, new Vector2(1300, 450)));
+
+            wallSprites.Add(new List<WallSprite>());
+            //walls on the left of the screen lev 3
+            wallSprites[2].Add(new WallSprite(wallTxr, whiteBox, new Vector2(-20, 0)));
+            wallSprites[2].Add(new WallSprite(wallTxr, whiteBox, new Vector2(-20, 50)));
+            wallSprites[2].Add(new WallSprite(wallTxr, whiteBox, new Vector2(-20, 100)));
+            wallSprites[2].Add(new WallSprite(wallTxr, whiteBox, new Vector2(-20, 150)));
+            wallSprites[2].Add(new WallSprite(wallTxr, whiteBox, new Vector2(-20, 200)));
+            wallSprites[2].Add(new WallSprite(wallTxr, whiteBox, new Vector2(-20, 250)));
+            wallSprites[2].Add(new WallSprite(wallTxr, whiteBox, new Vector2(-20, 300)));
+            wallSprites[2].Add(new WallSprite(wallTxr, whiteBox, new Vector2(-20, 350)));
+            wallSprites[2].Add(new WallSprite(wallTxr, whiteBox, new Vector2(-20, 400)));
+            wallSprites[2].Add(new WallSprite(wallTxr, whiteBox, new Vector2(-20, 450)));
+            //walls on the left of the screen lev 3
+            wallSprites[2].Add(new WallSprite(wallTxr, whiteBox, new Vector2(1300, 0)));
+            wallSprites[2].Add(new WallSprite(wallTxr, whiteBox, new Vector2(1300, 50)));
+            wallSprites[2].Add(new WallSprite(wallTxr, whiteBox, new Vector2(1300, 100)));
+            wallSprites[2].Add(new WallSprite(wallTxr, whiteBox, new Vector2(1300, 150)));
+            wallSprites[2].Add(new WallSprite(wallTxr, whiteBox, new Vector2(1300, 200)));
+            wallSprites[2].Add(new WallSprite(wallTxr, whiteBox, new Vector2(1300, 250)));
+            wallSprites[2].Add(new WallSprite(wallTxr, whiteBox, new Vector2(1300, 300)));
+            wallSprites[2].Add(new WallSprite(wallTxr, whiteBox, new Vector2(1300, 350)));
+            wallSprites[2].Add(new WallSprite(wallTxr, whiteBox, new Vector2(1300, 400)));
+            wallSprites[2].Add(new WallSprite(wallTxr, whiteBox, new Vector2(1300, 450)));
+
+            wallSprites[2].Add(new WallSprite(wallTxr, whiteBox, new Vector2(175, 110)));
+            wallSprites[2].Add(new WallSprite(wallTxr, whiteBox, new Vector2(450, 110)));
+            wallSprites[2].Add(new WallSprite(wallTxr, whiteBox, new Vector2(450, 210)));
+            wallSprites[2].Add(new WallSprite(wallTxr, whiteBox, new Vector2(325, 260)));
+        }
+        
 
         void AddEnemy()
         {
@@ -354,7 +467,11 @@ namespace AGamersGame
             badSprite1[0].Add(new BadSprite1(badG1Txr, whiteBox, new Vector2(250, 250)));
 
             badSprite1.Add(new List<BadSprite1>());
-            badSprite1[1].Add(new BadSprite1(badG1Txr, whiteBox, new Vector2(1050, 250)));
+            badSprite1[1].Add(new BadSprite1(badG1Txr, whiteBox, new Vector2(1000, 230)));
+            badSprite1[1].Add(new BadSprite1(badG1Txr, whiteBox, new Vector2(600, 360)));
+
+            badSprite1.Add(new List<BadSprite1>());
+            badSprite1[2].Add(new BadSprite1(badG1Txr, whiteBox, new Vector2(1050, 250)));
         }
 
         void AddKeys()
@@ -363,21 +480,30 @@ namespace AGamersGame
             keySprite[0].Add(new KeySprite(keyTxr,whiteBox,new Vector2(30, 298)));
 
             keySprite.Add(new List<KeySprite>());
-            keySprite[1].Add(new KeySprite(keyTxr, whiteBox, new Vector2(30, 298)));
+            keySprite[1].Add(new KeySprite(keyTxr, whiteBox, new Vector2(40, 250)));
+
+            keySprite.Add(new List<KeySprite>());
+            keySprite[2].Add(new KeySprite(keyTxr, whiteBox, new Vector2(40, 250)));
         }
 
         void AddSpike()
         {
             spikeSprites.Add(new List<SpikeSprite>());
-            spikeSprites[0].Add(new SpikeSprite(fallTxr, whiteBox, new Vector2 (- 100, -100)));
+            spikeSprites[0].Add(new SpikeSprite(fallTxr, whiteBox, new Vector2 (- 100, -100),10f));
             
             
             spikeSprites.Add(new List<SpikeSprite>());
-            spikeSprites[1].Add(new SpikeSprite(fallTxr, whiteBox, new Vector2(1100, 0)));
-            spikeSprites[1].Add(new SpikeSprite(fallTxr, whiteBox, new Vector2(1150, 0)));
+            spikeSprites[1].Add(new SpikeSprite(fallTxr, whiteBox, new Vector2(1100, 0),130f));
+            spikeSprites[1].Add(new SpikeSprite(fallTxr, whiteBox, new Vector2(1150, 0),170f));
 
-            spikeSprites[1].Add(new SpikeSprite(fallTxr, whiteBox, new Vector2(50, 100)));
-            spikeSprites[1].Add(new SpikeSprite(fallTxr, whiteBox, new Vector2(100, 100)));
+            spikeSprites[1].Add(new SpikeSprite(fallTxr, whiteBox, new Vector2(50, 100),190f));
+            spikeSprites[1].Add(new SpikeSprite(fallTxr, whiteBox, new Vector2(100, 100),210f));
+
+            spikeSprites[1].Add(new SpikeSprite(fallTxr, whiteBox, new Vector2(500, 0),200f));
+            spikeSprites[1].Add(new SpikeSprite(fallTxr, whiteBox, new Vector2(800, 0),150f));
+
+            spikeSprites.Add(new List<SpikeSprite>());
+            spikeSprites[2].Add(new SpikeSprite(fallTxr, whiteBox, new Vector2(-100, -100), 10f));
         }
 
     }

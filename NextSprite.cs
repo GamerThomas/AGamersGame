@@ -34,5 +34,10 @@ namespace AGamersGame
         {
             spritePos = new Vector2(10, 490);
         }
+
+        public void level3()
+        {
+            spritePos = new Vector2(1250, 480);
+        }
     }
 }

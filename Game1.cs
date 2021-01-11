@@ -19,7 +19,9 @@ namespace AGamersGame
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        Texture2D playerTxr, backgroundTxr1, backgroundTxr2, whiteBox, platformTxr, backTxr, badG1Txr, keyTxr, doorTxr, blankTxr, healthTxr, fallTxr,wallTxr;
+        Random rng = new Random();
+
+        Texture2D playerTxr, backgroundTxr1, backgroundTxr2, whiteBox, platformTxr, backTxr, badG1Txr, keyTxr, doorTxr, blankTxr, healthTxr, fallTxr,wallTxr,arrowTxr;
 
         Point screenSize = new Point(1280, 500);
         public int levelNumber = 0;
@@ -39,6 +41,7 @@ namespace AGamersGame
         List<List<KeySprite>> keySprite = new List<List<KeySprite>>();
         List<List<SpikeSprite>> spikeSprites = new List<List<SpikeSprite>>();
         List<List<WallSprite>> wallSprites = new List<List<WallSprite>>();
+        List<List<ArrowSprite>> arrowSprites = new List<List<ArrowSprite>>();
 
         public bool openDoor = false;
 
@@ -73,6 +76,7 @@ namespace AGamersGame
             healthTxr = Content.Load<Texture2D>("LivesSheet");
             fallTxr = Content.Load<Texture2D>("FallTxr");
             wallTxr = Content.Load<Texture2D>("WallSheet");
+            arrowTxr = Content.Load<Texture2D>("Arrow");
 
 
             whiteBox = new Texture2D(GraphicsDevice, 1, 1);
@@ -98,6 +102,7 @@ namespace AGamersGame
             AddEnemy();
             AddSpike();
             AddWalls();
+            AddArrows();
         }
 
         protected override void Update(GameTime gameTime)
@@ -128,10 +133,15 @@ namespace AGamersGame
                 nextSprite.level1();
                 doorSprite.level1();
             }
+            if (levelNumber ==2)
+            {
+                doorSprite.Move(new Vector2(1200, 475));
+                nextSprite.level3();
+            }
 
 
 
-            
+            //When its level 2 change to other platform sprite
             if (levelNumber == 1)
             {
                 foreach (PlatformSprite platform in levels[levelNumber])
@@ -168,6 +178,14 @@ namespace AGamersGame
                 if (spike.spritePos.Y > screenSize.Y + 10) spike.Reset();
             }
 
+            foreach(ArrowSprite arrow in arrowSprites[levelNumber])
+            {
+                arrow.update(gameTime);
+                if (arrow.spritePos.X < screenSize.X - 1300) arrow.Reset();
+                if (arrow.leftArrow && arrow.spritePos.X > screenSize.X +20 ) arrow.Reset();
+
+            }
+
 
             foreach (KeySprite keys in keySprite[levelNumber])
             {
@@ -200,12 +218,13 @@ namespace AGamersGame
             if (openDoor)doorSprite.Update();
 
 
-
+            //If the player falls out the map remove a life
             if (playerSprite.spritePos.Y > screenSize.Y + 50)
             {
                 playerSprite.ResetPlayer(new Vector2(50, 50));
                 lives--;
             }
+            //If the player is dead reset the player and remove a life
             if (playerSprite.playerDead)
             {
                 playerSprite.ResetPlayer(new Vector2(50, 50));
@@ -248,12 +267,16 @@ namespace AGamersGame
             foreach (KeySprite key in keySprite[levelNumber]) key.Draw(_spriteBatch, gameTime);
             
             foreach (SpikeSprite spike in spikeSprites[levelNumber]) spike.Draw(_spriteBatch, gameTime);
+
             
+
             playerSprite.Draw(_spriteBatch, gameTime);
 
 
             foreach (PlatformSprite platform in levels[levelNumber]) platform.Draw(_spriteBatch, gameTime);
             foreach (WallSprite walls in wallSprites[levelNumber]) walls.Draw(_spriteBatch, gameTime);
+
+            foreach (ArrowSprite arrow in arrowSprites[levelNumber]) arrow.Draw(_spriteBatch, gameTime);
 
             if (lives == 3)
             {
@@ -288,6 +311,7 @@ namespace AGamersGame
 
         void BuildLevels()
         {
+            //Platforms level 1
             levels.Add(new List<PlatformSprite>());
             levels[0].Add(new PlatformSprite(platformTxr, whiteBox, new Vector2(50, 300)));
             levels[0].Add(new PlatformSprite(platformTxr, whiteBox, new Vector2(150, 300)));
@@ -301,7 +325,7 @@ namespace AGamersGame
             levels[0].Add(new PlatformSprite(platformTxr, whiteBox, new Vector2(1050, 300)));
             levels[0].Add(new PlatformSprite(platformTxr, whiteBox, new Vector2(1150, 300)));
             levels[0].Add(new PlatformSprite(platformTxr, whiteBox, new Vector2(1250, 300)));
-
+            //Platforms level 2
             levels.Add(new List<PlatformSprite>());
             levels[1].Add(new PlatformSprite(platformTxr,whiteBox,new Vector2(0,50)));
             levels[1].Add(new PlatformSprite(platformTxr, whiteBox, new Vector2(100, 50)));
@@ -356,7 +380,7 @@ namespace AGamersGame
             levels[1].Add(new PlatformSprite(platformTxr, whiteBox, new Vector2(1200, 470)));
             levels[1].Add(new PlatformSprite(platformTxr, whiteBox, new Vector2(1300, 470)));
 
-
+            //Platforms level 3
             levels.Add(new List<PlatformSprite>());
             levels[2].Add(new PlatformSprite(platformTxr, whiteBox, new Vector2(50, 60)));
             levels[2].Add(new PlatformSprite(platformTxr, whiteBox, new Vector2(150, 60)));
@@ -370,11 +394,44 @@ namespace AGamersGame
             levels[2].Add(new PlatformSprite(platformTxr, whiteBox, new Vector2(1150, 60)));
             levels[2].Add(new PlatformSprite(platformTxr, whiteBox, new Vector2(1250, 60)));
 
+            levels[2].Add(new PlatformSprite(platformTxr, whiteBox, new Vector2(50, -40)));
+            levels[2].Add(new PlatformSprite(platformTxr, whiteBox, new Vector2(150, -40)));
+            levels[2].Add(new PlatformSprite(platformTxr, whiteBox, new Vector2(250, -40)));
+            levels[2].Add(new PlatformSprite(platformTxr, whiteBox, new Vector2(350, -40)));
+            levels[2].Add(new PlatformSprite(platformTxr, whiteBox, new Vector2(450, -40)));
+            levels[2].Add(new PlatformSprite(platformTxr, whiteBox, new Vector2(550, -40)));
+            levels[2].Add(new PlatformSprite(platformTxr, whiteBox, new Vector2(650, -40)));
+            levels[2].Add(new PlatformSprite(platformTxr, whiteBox, new Vector2(750, -40)));
+            levels[2].Add(new PlatformSprite(platformTxr, whiteBox, new Vector2(850, -40)));
+            levels[2].Add(new PlatformSprite(platformTxr, whiteBox, new Vector2(950, -40)));
+            levels[2].Add(new PlatformSprite(platformTxr, whiteBox, new Vector2(1050, -40)));
+            levels[2].Add(new PlatformSprite(platformTxr, whiteBox, new Vector2(1150, -40)));
+            levels[2].Add(new PlatformSprite(platformTxr, whiteBox, new Vector2(1250, -40)));
+
             levels[2].Add(new PlatformSprite(platformTxr, whiteBox, new Vector2(200, 210)));
             levels[2].Add(new PlatformSprite(platformTxr, whiteBox, new Vector2(300, 210)));
 
             levels[2].Add(new PlatformSprite(platformTxr, whiteBox, new Vector2(350, 360)));
             levels[2].Add(new PlatformSprite(platformTxr, whiteBox, new Vector2(450, 360)));
+
+            levels[2].Add(new PlatformSprite(platformTxr, whiteBox, new Vector2(550, 475)));
+            levels[2].Add(new PlatformSprite(platformTxr, whiteBox, new Vector2(650, 475)));
+            levels[2].Add(new PlatformSprite(platformTxr, whiteBox, new Vector2(750, 475)));
+            levels[2].Add(new PlatformSprite(platformTxr, whiteBox, new Vector2(850, 475)));
+            levels[2].Add(new PlatformSprite(platformTxr, whiteBox, new Vector2(950, 475)));
+            levels[2].Add(new PlatformSprite(platformTxr, whiteBox, new Vector2(1050, 475)));
+            levels[2].Add(new PlatformSprite(platformTxr, whiteBox, new Vector2(1150, 475)));
+            levels[2].Add(new PlatformSprite(platformTxr, whiteBox, new Vector2(1250, 475)));
+
+            levels[2].Add(new PlatformSprite(platformTxr, whiteBox, new Vector2(525, 260)));
+            levels[2].Add(new PlatformSprite(platformTxr, whiteBox, new Vector2(625, 260)));
+            levels[2].Add(new PlatformSprite(platformTxr, whiteBox, new Vector2(725, 260)));
+            levels[2].Add(new PlatformSprite(platformTxr, whiteBox, new Vector2(750, 260)));
+            levels[2].Add(new PlatformSprite(platformTxr, whiteBox, new Vector2(825, 260)));
+            levels[2].Add(new PlatformSprite(platformTxr, whiteBox, new Vector2(925, 260)));
+            levels[2].Add(new PlatformSprite(platformTxr, whiteBox, new Vector2(1025, 260)));
+            levels[2].Add(new PlatformSprite(platformTxr, whiteBox, new Vector2(1125, 260)));
+            levels[2].Add(new PlatformSprite(platformTxr, whiteBox, new Vector2(1225, 260)));
 
 
         }
@@ -457,6 +514,8 @@ namespace AGamersGame
             wallSprites[2].Add(new WallSprite(wallTxr, whiteBox, new Vector2(450, 110)));
             wallSprites[2].Add(new WallSprite(wallTxr, whiteBox, new Vector2(450, 210)));
             wallSprites[2].Add(new WallSprite(wallTxr, whiteBox, new Vector2(325, 260)));
+
+            wallSprites[2].Add(new WallSprite(wallTxr, whiteBox, new Vector2(475, 410)));
         }
         
 
@@ -504,6 +563,23 @@ namespace AGamersGame
 
             spikeSprites.Add(new List<SpikeSprite>());
             spikeSprites[2].Add(new SpikeSprite(fallTxr, whiteBox, new Vector2(-100, -100), 10f));
+        }
+
+        void AddArrows()
+        {
+            int speed = rng.Next(150, 400);
+            arrowSprites.Add(new List<ArrowSprite>());
+            arrowSprites[0].Add(new ArrowSprite(arrowTxr, whiteBox, new Vector2(-100, -100), 500f,false));
+
+            arrowSprites.Add(new List<ArrowSprite>());
+            arrowSprites[1].Add(new ArrowSprite(arrowTxr, whiteBox, new Vector2(-100, -100), 500f, false));
+
+            arrowSprites.Add(new List<ArrowSprite>());
+            arrowSprites[2].Add(new ArrowSprite(arrowTxr, whiteBox, new Vector2(1280, 50), (float)speed, false));
+            arrowSprites[2].Add(new ArrowSprite(arrowTxr, whiteBox, new Vector2(0, 150), (float)speed, true));
+
+
+
         }
 
     }

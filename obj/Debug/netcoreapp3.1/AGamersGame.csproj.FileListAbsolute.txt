@@ -33,3 +33,4 @@ C:\Users\PCLT\source\repos\AGamersGame\AGamersGame\bin\Debug\netcoreapp3.1\Conte
 C:\Users\PCLT\source\repos\AGamersGame\AGamersGame\bin\Debug\netcoreapp3.1\Content\Background2.xnb
 C:\Users\PCLT\source\repos\AGamersGame\AGamersGame\bin\Debug\netcoreapp3.1\Content\FallTxr.xnb
 C:\Users\PCLT\source\repos\AGamersGame\AGamersGame\bin\Debug\netcoreapp3.1\Content\WallSheet.xnb
+C:\Users\PCLT\source\repos\AGamersGame\AGamersGame\bin\Debug\netcoreapp3.1\Content\Arrow.xnb

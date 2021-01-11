@@ -1,4 +1,5 @@
 Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
+"C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/Arrow.png","C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/bin/DesktopGL/Arrow.xnb","TextureProcessor","Texture2DContent",871,8085,0.2524884
 "C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/BackAnim.png","C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/bin/DesktopGL/BackAnim.xnb","TextureProcessor","Texture2DContent",6303,460085,0.1251223
 "C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/Background1.png","C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/bin/DesktopGL/Background1.xnb","TextureProcessor","Texture2DContent",37290,2560085,0.073368
 "C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/Background2.png","C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/bin/DesktopGL/Background2.xnb","TextureProcessor","Texture2DContent",6035,2560085,0.1767972

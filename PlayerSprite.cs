@@ -14,7 +14,7 @@ namespace AGamersGame
 {
     class PlayerSprite : Sprite
     {
-        bool jumping, walking, falling, jumpIsPressed, sprint,attack;
+        bool jumping, walking, falling, jumpIsPressed, sprint,attack,block;
 
         public bool playerDead = false;
         public bool nextLevel = false;
@@ -67,18 +67,23 @@ namespace AGamersGame
             animations[5].Add(new Rectangle(200, 0, 50, 50));
             animations[5].Add(new Rectangle(251, 0, 50, 50));
 
+            animations.Add(new List<Rectangle>());//Block Anim
+            animations[6].Add(new Rectangle(200, 50, 50, 50));
+            animations[6].Add(new Rectangle(250, 50, 50, 50));
+
 
             attack = false;
             sprint = false;
             jumping = false;
             walking = false;
+            block = false;
             falling = true;
             jumpIsPressed = false;
 
         }
 
 
-        public void Update(GameTime gameTime, List<PlatformSprite> platforms, List<BadSprite1> badSprite1, DoorSprite doorSprites, List<KeySprite> keySprites, NextSprite nextLev, List<SpikeSprite> spike,List<WallSprite> walls)
+        public void Update(GameTime gameTime, List<PlatformSprite> platforms, List<BadSprite1> badSprite1, DoorSprite doorSprites, List<KeySprite> keySprites, NextSprite nextLev, List<SpikeSprite> spike,List<WallSprite> walls,List<ArrowSprite>arrow)
         {
             KeyboardState keyboardState = Keyboard.GetState();
 
@@ -101,6 +106,7 @@ namespace AGamersGame
             if (keyboardState.IsKeyDown(Keys.A))
             {
                 attack = false;
+                block = false;
                 walking = true;
                 spriteVelocity.X = -walkSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
                 flipped = true;
@@ -114,6 +120,7 @@ namespace AGamersGame
             else if (keyboardState.IsKeyDown(Keys.D))
             {
                 attack = false;
+                block = false;
                 walking = true;
                 spriteVelocity.X = +walkSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
                 flipped = false;
@@ -127,6 +134,7 @@ namespace AGamersGame
             else
             {
                 attack = false;
+                block = false;
                 walking = false;
                 sprint = false;
                 spriteVelocity.X = 0;
@@ -137,6 +145,15 @@ namespace AGamersGame
                 attack = true;
                 walking = false;
                 sprint = false;
+                block = false;
+                spriteVelocity.X = 0;
+            }
+            if (keyboardState.IsKeyDown(Keys.E))
+            {
+                attack = false;
+                walking = false;
+                sprint = false;
+                block = true;
                 spriteVelocity.X = 0;
             }
 
@@ -330,6 +347,7 @@ namespace AGamersGame
             else if (falling) setAnim(1);
             else if (jumping) setAnim(2);
             else if (attack) setAnim(5);
+            else if (block) setAnim(6);
             else setAnim(0);
 
 
@@ -381,6 +399,54 @@ namespace AGamersGame
                 else if (checkCollisionRight(spikes))
                 {
                     playerDead = true;
+                }
+            }
+
+            if (block)
+            {
+                foreach (ArrowSprite arrows in arrow)
+                {
+                    if (checkCollisionAbove(arrows))
+                    {
+                        arrows.Reset();
+                    }
+                    else if (checkCollisionBelow(arrows))
+                    {
+                        arrows.Reset();
+                    }
+                    if (checkCollisionLeft(arrows))
+                    {
+                        arrows.Reset();
+                    }
+                    else if (checkCollisionRight(arrows))
+                    {
+                        arrows.Reset();
+                    }
+                }
+            }
+            else
+            {
+                foreach (ArrowSprite arrows in arrow)
+                {
+                    if (checkCollisionAbove(arrows))
+                    {
+                        arrows.Reset();
+                    }
+                    else if (checkCollisionBelow(arrows))
+                    {
+                        playerDead = true;
+                        arrows.Reset();
+                    }
+                    if (checkCollisionLeft(arrows))
+                    {
+                        playerDead = true;
+                        arrows.Reset();
+                    }
+                    else if (checkCollisionRight(arrows))
+                    {
+                        playerDead = true;
+                        arrows.Reset();
+                    }
                 }
             }
         }

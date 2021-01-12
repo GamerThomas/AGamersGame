@@ -9,6 +9,7 @@
     <File>C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/Background1.png</File>
     <File>C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/Background2.png</File>
     <File>C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/BadGuySheet1.png</File>
+    <File>C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/BadGuySheet2.png</File>
     <File>C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/Blank.png</File>
     <File>C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/Door.png</File>
     <File>C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/FallTxr.png</File>
@@ -19,6 +20,7 @@
     <File>C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/WallSheet.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

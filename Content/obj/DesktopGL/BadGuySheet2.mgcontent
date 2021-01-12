@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <SourceFile>C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/Background2.png</SourceFile>
-  <SourceTime>2020-12-14T10:56:25.3682741+00:00</SourceTime>
-  <DestFile>C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/bin/DesktopGL/Background2.xnb</DestFile>
-  <DestTime>2021-01-12T14:17:38.0897501+00:00</DestTime>
+  <SourceFile>C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/BadGuySheet2.png</SourceFile>
+  <SourceTime>2021-01-12T12:57:52.5887212+00:00</SourceTime>
+  <DestFile>C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/bin/DesktopGL/BadGuySheet2.xnb</DestFile>
+  <DestTime>2021-01-12T14:17:38.1336045+00:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2020-08-10T16:17:54+01:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

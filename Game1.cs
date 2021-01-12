@@ -21,7 +21,7 @@ namespace AGamersGame
 
         Random rng = new Random();
 
-        Texture2D playerTxr, backgroundTxr1, backgroundTxr2, whiteBox, platformTxr, backTxr, badG1Txr, keyTxr, doorTxr, blankTxr, healthTxr, fallTxr,wallTxr,arrowTxr;
+        Texture2D playerTxr, backgroundTxr1, backgroundTxr2, whiteBox, platformTxr, backTxr, badG1Txr, keyTxr, doorTxr, blankTxr, healthTxr, fallTxr,wallTxr,arrowTxr,badG2Txr;
 
         Point screenSize = new Point(1280, 500);
         public int levelNumber = 0;
@@ -42,6 +42,8 @@ namespace AGamersGame
         List<List<SpikeSprite>> spikeSprites = new List<List<SpikeSprite>>();
         List<List<WallSprite>> wallSprites = new List<List<WallSprite>>();
         List<List<ArrowSprite>> arrowSprites = new List<List<ArrowSprite>>();
+        List<List<BadSprite2>> badSprite2 = new List<List<BadSprite2>>();
+        List<List<navSprite>> navSprites = new List<List<navSprite>>();
 
         public bool openDoor = false;
 
@@ -70,6 +72,7 @@ namespace AGamersGame
             platformTxr = Content.Load<Texture2D>("platSheet1");
             backTxr = Content.Load<Texture2D>("BackAnim");
             badG1Txr = Content.Load<Texture2D>("BadGuySheet1");
+            badG2Txr = Content.Load<Texture2D>("BadGuySheet2");
             keyTxr = Content.Load<Texture2D>("KeySheet");
             doorTxr = Content.Load<Texture2D>("Door");
             blankTxr = Content.Load<Texture2D>("Blank");
@@ -103,6 +106,7 @@ namespace AGamersGame
             AddSpike();
             AddWalls();
             AddArrows();
+            AddNav();
         }
 
         protected override void Update(GameTime gameTime)
@@ -121,7 +125,7 @@ namespace AGamersGame
             }
 
 
-            playerSprite.Update(gameTime, levels[levelNumber], badSprite1[levelNumber], doorSprite, keySprite[levelNumber],nextSprite,spikeSprites[levelNumber],wallSprites[levelNumber]) ;
+            playerSprite.Update(gameTime, levels[levelNumber], badSprite1[levelNumber], doorSprite, keySprite[levelNumber],nextSprite,spikeSprites[levelNumber],wallSprites[levelNumber],arrowSprites[levelNumber]) ;
 
             if(levelNumber == 1)
             {
@@ -138,6 +142,7 @@ namespace AGamersGame
                 doorSprite.Move(new Vector2(1200, 475));
                 nextSprite.level3();
             }
+
 
 
 
@@ -164,6 +169,11 @@ namespace AGamersGame
             foreach (BadSprite1 badSprite in badSprite1[levelNumber])
             {
                 badSprite.Update(gameTime, levels[levelNumber]);
+            }
+
+            foreach (BadSprite2 badSprite in badSprite2[levelNumber])
+            {
+                badSprite.update(gameTime, levels[levelNumber], navSprites[levelNumber]);
             }
             
             
@@ -233,6 +243,7 @@ namespace AGamersGame
 
 
 
+
             base.Update(gameTime);
         }
 
@@ -260,6 +271,7 @@ namespace AGamersGame
 
             foreach (BadSprite1 badSprite in badSprite1[levelNumber]) badSprite.Draw(_spriteBatch, gameTime);
 
+            foreach (BadSprite2 badSprite in badSprite2[levelNumber]) badSprite.Draw(_spriteBatch, gameTime);
 
             nextSprite.Draw(_spriteBatch, gameTime);
             doorSprite.Draw(_spriteBatch, gameTime);
@@ -267,6 +279,8 @@ namespace AGamersGame
             foreach (KeySprite key in keySprite[levelNumber]) key.Draw(_spriteBatch, gameTime);
             
             foreach (SpikeSprite spike in spikeSprites[levelNumber]) spike.Draw(_spriteBatch, gameTime);
+
+            foreach (navSprite nav in navSprites[levelNumber] )nav.Draw(_spriteBatch,gameTime);
 
             
 
@@ -531,6 +545,16 @@ namespace AGamersGame
 
             badSprite1.Add(new List<BadSprite1>());
             badSprite1[2].Add(new BadSprite1(badG1Txr, whiteBox, new Vector2(1050, 250)));
+
+
+            badSprite2.Add(new List<BadSprite2>());
+            badSprite2[0].Add(new BadSprite2(badG2Txr, whiteBox, new Vector2(-100, -100)));
+
+            badSprite2.Add(new List<BadSprite2>());
+            badSprite2[1].Add(new BadSprite2(badG2Txr, whiteBox, new Vector2(600, 450)));
+
+            badSprite2.Add(new List<BadSprite2>());
+            badSprite2[2].Add(new BadSprite2(badG2Txr, whiteBox, new Vector2(750, 400)));
         }
 
         void AddKeys()
@@ -542,7 +566,7 @@ namespace AGamersGame
             keySprite[1].Add(new KeySprite(keyTxr, whiteBox, new Vector2(40, 250)));
 
             keySprite.Add(new List<KeySprite>());
-            keySprite[2].Add(new KeySprite(keyTxr, whiteBox, new Vector2(40, 250)));
+            keySprite[2].Add(new KeySprite(keyTxr, whiteBox, new Vector2(1000, 50)));
         }
 
         void AddSpike()
@@ -578,6 +602,22 @@ namespace AGamersGame
             arrowSprites[2].Add(new ArrowSprite(arrowTxr, whiteBox, new Vector2(1280, 50), (float)speed, false));
             arrowSprites[2].Add(new ArrowSprite(arrowTxr, whiteBox, new Vector2(0, 150), (float)speed, true));
 
+
+
+        }
+
+        void AddNav()
+        {
+            navSprites.Add(new List<navSprite>());
+            navSprites[0].Add(new navSprite(blankTxr, wallTxr, new Vector2(100, 100)));
+
+            navSprites.Add(new List<navSprite>());
+            navSprites[1].Add(new navSprite(blankTxr, wallTxr, new Vector2(1100, 475)));
+            navSprites[1].Add(new navSprite(blankTxr, wallTxr, new Vector2(150, 475)));
+
+            navSprites.Add(new List<navSprite>());
+            navSprites[2].Add(new navSprite(blankTxr, wallTxr, new Vector2(1100, 475)));
+            navSprites[2].Add(new navSprite(blankTxr, wallTxr, new Vector2(550, 475)));
 
 
         }

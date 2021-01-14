@@ -89,11 +89,17 @@ namespace AGamersGame
 
 
             playerSprite = new PlayerSprite(playerTxr, whiteBox, new Vector2(50, 50));
-            backSprite = new BackSprite(backTxr, whiteBox, new Vector2(780, 135));
             doorSprite = new DoorSprite(doorTxr, whiteBox, new Vector2(1205, 300));
             nextSprite = new NextSprite(blankTxr, whiteBox, new Vector2(1260, 300));
 
+            if(levelNumber ==0)
+            {
+                backSprite = new BackSprite(backTxr, whiteBox, new Vector2(780, 135), levelNumber);
+            }
+            else if(levelNumber == 2)
+            {
 
+            }
 
 
             healthSprites.Add(new HealthSprite(healthTxr, whiteBox, new Vector2(1190, 0)));
@@ -125,7 +131,7 @@ namespace AGamersGame
             }
 
 
-            playerSprite.Update(gameTime, levels[levelNumber], badSprite1[levelNumber], doorSprite, keySprite[levelNumber],nextSprite,spikeSprites[levelNumber],wallSprites[levelNumber],arrowSprites[levelNumber]) ;
+            playerSprite.Update(gameTime, levels[levelNumber], badSprite1[levelNumber], doorSprite, keySprite[levelNumber],nextSprite,spikeSprites[levelNumber],wallSprites[levelNumber],arrowSprites[levelNumber],badSprite2[levelNumber]) ;
 
             if(levelNumber == 1)
             {
@@ -218,7 +224,7 @@ namespace AGamersGame
 
             
             
-            if (playerSprite.nextLevel == true)
+            if (playerSprite.nextLevel == true && levelNumber <3)
             {
                 playerSprite.ResetPlayer(new Vector2(60, 60));
                 levelNumber++;
@@ -312,8 +318,13 @@ namespace AGamersGame
                 levelNumber = 0;
                 foreach (KeySprite keys in keySprite[0]) keys.open = false;
                 foreach (KeySprite keys in keySprite[1]) keys.open = false;
+                foreach (KeySprite keys in keySprite[2]) keys.open = false;
                 foreach (BadSprite1 badguy in badSprite1[0]) badguy.enDead = false;
                 foreach (BadSprite1 badguy in badSprite1[1]) badguy.enDead = false;
+                foreach (BadSprite1 badguy in badSprite1[2]) badguy.enDead = false;
+                foreach (BadSprite2 badguy in badSprite2[0]) badguy.Alive();
+                foreach (BadSprite2 badguy in badSprite2[1]) badguy.Alive();
+                foreach (BadSprite2 badguy in badSprite2[2]) badguy.Alive();
 
             }
 
@@ -548,7 +559,7 @@ namespace AGamersGame
 
 
             badSprite2.Add(new List<BadSprite2>());
-            badSprite2[0].Add(new BadSprite2(badG2Txr, whiteBox, new Vector2(-100, -100)));
+            badSprite2[0].Add(new BadSprite2(badG2Txr, whiteBox, new Vector2(2000, -100)));
 
             badSprite2.Add(new List<BadSprite2>());
             badSprite2[1].Add(new BadSprite2(badG2Txr, whiteBox, new Vector2(600, 450)));
@@ -600,7 +611,9 @@ namespace AGamersGame
 
             arrowSprites.Add(new List<ArrowSprite>());
             arrowSprites[2].Add(new ArrowSprite(arrowTxr, whiteBox, new Vector2(1280, 50), (float)speed, false));
-            arrowSprites[2].Add(new ArrowSprite(arrowTxr, whiteBox, new Vector2(0, 150), (float)speed, true));
+            arrowSprites[2].Add(new ArrowSprite(arrowTxr, whiteBox, new Vector2(0, 200), (float)speed, true));
+            arrowSprites[2].Add(new ArrowSprite(arrowTxr, whiteBox, new Vector2(1280, 350), (float)speed, false));
+            arrowSprites[2].Add(new ArrowSprite(arrowTxr, whiteBox, new Vector2(0, 475), (float)speed, true));
 
 
 
@@ -609,7 +622,7 @@ namespace AGamersGame
         void AddNav()
         {
             navSprites.Add(new List<navSprite>());
-            navSprites[0].Add(new navSprite(blankTxr, wallTxr, new Vector2(100, 100)));
+            navSprites[0].Add(new navSprite(blankTxr, wallTxr, new Vector2()));
 
             navSprites.Add(new List<navSprite>());
             navSprites[1].Add(new navSprite(blankTxr, wallTxr, new Vector2(1100, 475)));

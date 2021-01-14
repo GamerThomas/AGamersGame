@@ -11,7 +11,8 @@ namespace AGamersGame
 {
     class BadSprite2 : Sprite
     {
-        bool alive, left, right,falling;
+        bool left, right,falling;
+        public bool alive;
         const float walkSpeed = 80f;
         public BadSprite2(Texture2D newSpriteSheet, Texture2D newCollisionTxr, Vector2 newLocation) : base(newSpriteSheet, newCollisionTxr, newLocation)
         {
@@ -31,6 +32,12 @@ namespace AGamersGame
             animations[0].Add(new Rectangle(50, 0, 50, 50));
             animations[0].Add(new Rectangle(100, 0, 50, 50));
 
+            animations.Add(new List<Rectangle>());
+            animations[1].Add(new Rectangle(150, 0, 50, 50));
+            animations[1].Add(new Rectangle(200, 0, 50, 50));
+            animations[1].Add(new Rectangle(150, 0, 50, 50));
+            animations[1].Add(new Rectangle(250, 0, 50, 50));
+
             alive = true;
             left = false;
             right = true;
@@ -45,6 +52,7 @@ namespace AGamersGame
                spriteVelocity.X = 0;
                 left = false;
                 right = false;
+                setAnim(1);
             }
 
             bool hasCollided = false;
@@ -88,6 +96,8 @@ namespace AGamersGame
             if (right) MoveRight(gameTime);
             if (left) MoveLeft(gameTime);
 
+
+
         }
 
 
@@ -104,6 +114,10 @@ namespace AGamersGame
             flipped = false;
         }
 
+        public void Alive()
+        {
+            alive = true;
+        }
 
     }
 }

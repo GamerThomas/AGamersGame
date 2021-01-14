@@ -18,6 +18,7 @@ namespace AGamersGame
 
         public bool playerDead = false;
         public bool nextLevel = false;
+        bool stop = false;
 
 
         const float jumpSpeed = 5f;
@@ -83,78 +84,80 @@ namespace AGamersGame
         }
 
 
-        public void Update(GameTime gameTime, List<PlatformSprite> platforms, List<BadSprite1> badSprite1, DoorSprite doorSprites, List<KeySprite> keySprites, NextSprite nextLev, List<SpikeSprite> spike,List<WallSprite> walls,List<ArrowSprite>arrow)
+        public void Update(GameTime gameTime, List<PlatformSprite> platforms, List<BadSprite1> badSprite1, DoorSprite doorSprites, List<KeySprite> keySprites, NextSprite nextLev, List<SpikeSprite> spike,List<WallSprite> walls,List<ArrowSprite>arrow,List<BadSprite2>badSprite2)
         {
             KeyboardState keyboardState = Keyboard.GetState();
-
-            if (!jumpIsPressed && !jumping && !falling && (keyboardState.IsKeyDown(Keys.Space)))
+            if (!stop)
             {
-                attack = false;
-                jumpIsPressed = true;
-                jumping = true;
-                walking = false;
-                falling = false;
-                spriteVelocity.Y -= jumpSpeed;
-            }
-            else if (jumpIsPressed && !jumping && !falling && !(keyboardState.IsKeyDown(Keys.Space)))
-            {
-                jumpIsPressed = false;
-            }
-
-
-
-            if (keyboardState.IsKeyDown(Keys.A))
-            {
-                attack = false;
-                block = false;
-                walking = true;
-                spriteVelocity.X = -walkSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-                flipped = true;
-                if (keyboardState.IsKeyDown(Keys.LeftShift))
+                if (!jumpIsPressed && !jumping && !falling && (keyboardState.IsKeyDown(Keys.Space)))
                 {
+                    attack = false;
+                    jumpIsPressed = true;
+                    jumping = true;
                     walking = false;
-                    sprint = true;
-                    spriteVelocity.X = -sprintSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    falling = false;
+                    spriteVelocity.Y -= jumpSpeed;
                 }
-            }
-            else if (keyboardState.IsKeyDown(Keys.D))
-            {
-                attack = false;
-                block = false;
-                walking = true;
-                spriteVelocity.X = +walkSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-                flipped = false;
-                if (keyboardState.IsKeyDown(Keys.LeftShift))
+                else if (jumpIsPressed && !jumping && !falling && !(keyboardState.IsKeyDown(Keys.Space)))
                 {
-                    walking = false;
-                    sprint = true;
-                    spriteVelocity.X = +sprintSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    jumpIsPressed = false;
                 }
-            }
-            else
-            {
-                attack = false;
-                block = false;
-                walking = false;
-                sprint = false;
-                spriteVelocity.X = 0;
-            }
 
-            if (keyboardState.IsKeyDown(Keys.F))
-            {
-                attack = true;
-                walking = false;
-                sprint = false;
-                block = false;
-                spriteVelocity.X = 0;
-            }
-            if (keyboardState.IsKeyDown(Keys.E))
-            {
-                attack = false;
-                walking = false;
-                sprint = false;
-                block = true;
-                spriteVelocity.X = 0;
+
+
+                if (keyboardState.IsKeyDown(Keys.A))
+                {
+                    attack = false;
+                    block = false;
+                    walking = true;
+                    spriteVelocity.X = -walkSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    flipped = true;
+                    if (keyboardState.IsKeyDown(Keys.LeftShift))
+                    {
+                        walking = false;
+                        sprint = true;
+                        spriteVelocity.X = -sprintSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    }
+                }
+                else if (keyboardState.IsKeyDown(Keys.D))
+                {
+                    attack = false;
+                    block = false;
+                    walking = true;
+                    spriteVelocity.X = +walkSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    flipped = false;
+                    if (keyboardState.IsKeyDown(Keys.LeftShift))
+                    {
+                        walking = false;
+                        sprint = true;
+                        spriteVelocity.X = +sprintSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    }
+                }
+                else
+                {
+                    attack = false;
+                    block = false;
+                    walking = false;
+                    sprint = false;
+                    spriteVelocity.X = 0;
+                }
+
+                if (keyboardState.IsKeyDown(Keys.F))
+                {
+                    attack = true;
+                    walking = false;
+                    sprint = false;
+                    block = false;
+                    spriteVelocity.X = 0;
+                }
+                if (keyboardState.IsKeyDown(Keys.E))
+                {
+                    attack = false;
+                    walking = false;
+                    sprint = false;
+                    block = true;
+                    spriteVelocity.X = 0;
+                }
             }
 
             if (attack)
@@ -226,6 +229,26 @@ namespace AGamersGame
                             badGuy.enDead = true;
                         }
                     }
+
+                    foreach (BadSprite2 badGuy in badSprite2)
+                    {
+                        if (checkCollisionBelow(badGuy))
+                        {
+                            badGuy.alive = false;
+                        }
+                        else if (checkCollisionAbove(badGuy))
+                        {
+                            badGuy.alive = false;
+                        }
+                        if (checkCollisionLeft(badGuy))
+                        {
+                            badGuy.alive = false;
+                        }
+                        else if (checkCollisionRight(badGuy))
+                        {
+                            badGuy.alive = false;
+                        }
+                    }
                 }
                 else
                 {
@@ -244,6 +267,26 @@ namespace AGamersGame
                             playerDead = true;
                         }
                         else if (checkCollisionRight(badGuy))
+                        {
+                            playerDead = true;
+                        }
+                    }
+
+                    foreach(BadSprite2 badGuy in badSprite2)
+                    {
+                        if (checkCollisionBelow(badGuy) && badGuy.alive)
+                        {
+                            playerDead = true;
+                        }
+                        else if (checkCollisionAbove(badGuy) && badGuy.alive)
+                        {
+                            playerDead = true;
+                        }
+                        if (checkCollisionLeft(badGuy) && badGuy.alive)
+                        {
+                            playerDead = true;
+                        }
+                        else if (checkCollisionRight(badGuy) && badGuy.alive)
                         {
                             playerDead = true;
                         }
@@ -382,6 +425,7 @@ namespace AGamersGame
 
 
 
+
             foreach (SpikeSprite spikes in spike)
             {
                 if (checkCollisionAbove(spikes))
@@ -449,6 +493,11 @@ namespace AGamersGame
                     }
                 }
             }
+
+
+            
+
+
         }
 
 
@@ -463,6 +512,11 @@ namespace AGamersGame
             playerDead = false;
             attack = false;
            
+        }
+
+        public void Stop()
+        {
+            stop = true;
         }
 
     }

@@ -15,7 +15,7 @@ namespace AGamersGame
     {
         bool falling;
         public bool enDead = false;
-
+        bool win = false;
         public BadSprite1(Texture2D newSpriteSheet, Texture2D newCollisionTxr, Vector2 newLocation) : base(newSpriteSheet, newCollisionTxr, newLocation)
         {
             spriteOrigin = new Vector2(0.5f, 1f);
@@ -37,8 +37,15 @@ namespace AGamersGame
             animations[0].Add(new Rectangle(150, 0, 50, 50));
 
             animations.Add(new List<Rectangle>());//Dead Anim
-            animations[1].Add(new Rectangle(101, 50, 50, 50));
-            animations[1].Add(new Rectangle(151, 50, 50, 50));
+            animations[1].Add(new Rectangle(101, 51, 50, 50));
+            animations[1].Add(new Rectangle(151, 51, 50, 50));
+
+            animations.Add(new List<Rectangle>());//Win Anim
+            animations[2].Add(new Rectangle(204, 0, 52, 52));
+            animations[2].Add(new Rectangle(257, 50, 52, 52));
+            animations[2].Add(new Rectangle(306, 0, 52, 52));
+            animations[2].Add(new Rectangle(359, 0, 52, 52));
+
 
 
             falling = true;
@@ -57,6 +64,10 @@ namespace AGamersGame
                 setAnim(1);
                 collisionInsetMin = new Vector2(1f, 0f);
                 collisionInsetMax = new Vector2(1f, 0f);
+            }
+            else if(win)
+            {
+                setAnim(2);
             }
             else
             {
@@ -79,6 +90,12 @@ namespace AGamersGame
                 }
                 if (!hasCollided) falling = true;
             }
+        }
+
+
+        public void Win()
+        {
+            win = true;
         }
     }
 }

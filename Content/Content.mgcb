@@ -37,6 +37,18 @@
 /processorParam:TextureFormat=Color
 /build:BackAnim.png
 
+#begin backAnim2.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:backAnim2.png
+
 #begin Background1.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -61,6 +73,30 @@
 /processorParam:TextureFormat=Color
 /build:Background2.png
 
+#begin Background3.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Background3.png
+
+#begin Background4.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Background4.png
+
 #begin BadGuySheet1.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -84,6 +120,13 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:BadGuySheet2.png
+
+#begin BigFont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:BigFont.spritefont
 
 #begin Blank.png
 /importer:TextureImporter
@@ -168,6 +211,13 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:SpriteSheetT.png
+
+#begin UiFont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:UiFont.spritefont
 
 #begin WallSheet.png
 /importer:TextureImporter

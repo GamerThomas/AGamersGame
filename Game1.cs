@@ -21,7 +21,9 @@ namespace AGamersGame
 
         Random rng = new Random();
 
-        Texture2D playerTxr, backgroundTxr1, backgroundTxr2, whiteBox, platformTxr, backTxr, badG1Txr, keyTxr, doorTxr, blankTxr, healthTxr, fallTxr,wallTxr,arrowTxr,badG2Txr;
+        SpriteFont uiFont,bigFont;
+
+        Texture2D playerTxr, backgroundTxr1, backgroundTxr2,backgroundTxr3,backgroundTxr4, whiteBox, platformTxr, backTxr, backTxr2,badG1Txr, keyTxr, doorTxr, blankTxr, healthTxr, fallTxr,wallTxr,arrowTxr,badG2Txr;
 
         Point screenSize = new Point(1280, 500);
         public int levelNumber = 0;
@@ -47,6 +49,9 @@ namespace AGamersGame
 
         public bool openDoor = false;
 
+        float playTime = 0;
+
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -69,8 +74,11 @@ namespace AGamersGame
             playerTxr = Content.Load<Texture2D>("SpriteSheetT");
             backgroundTxr1 = Content.Load<Texture2D>("Background1");
             backgroundTxr2 = Content.Load<Texture2D>("Background2");
+            backgroundTxr3 = Content.Load<Texture2D>("Background3");
+            backgroundTxr4 = Content.Load<Texture2D>("Background4");
             platformTxr = Content.Load<Texture2D>("platSheet1");
             backTxr = Content.Load<Texture2D>("BackAnim");
+            backTxr2 = Content.Load<Texture2D>("BackAnim2");
             badG1Txr = Content.Load<Texture2D>("BadGuySheet1");
             badG2Txr = Content.Load<Texture2D>("BadGuySheet2");
             keyTxr = Content.Load<Texture2D>("KeySheet");
@@ -80,6 +88,8 @@ namespace AGamersGame
             fallTxr = Content.Load<Texture2D>("FallTxr");
             wallTxr = Content.Load<Texture2D>("WallSheet");
             arrowTxr = Content.Load<Texture2D>("Arrow");
+            uiFont = Content.Load<SpriteFont>("UiFont");
+            bigFont = Content.Load<SpriteFont>("BigFont");
 
 
             whiteBox = new Texture2D(GraphicsDevice, 1, 1);
@@ -91,16 +101,9 @@ namespace AGamersGame
             playerSprite = new PlayerSprite(playerTxr, whiteBox, new Vector2(50, 50));
             doorSprite = new DoorSprite(doorTxr, whiteBox, new Vector2(1205, 300));
             nextSprite = new NextSprite(blankTxr, whiteBox, new Vector2(1260, 300));
-
-            if(levelNumber ==0)
-            {
-                backSprite = new BackSprite(backTxr, whiteBox, new Vector2(780, 135), levelNumber);
-            }
-            else if(levelNumber == 2)
-            {
-
-            }
-
+            backSprite = new BackSprite(backTxr, whiteBox, new Vector2(780, 135));
+            
+      
 
             healthSprites.Add(new HealthSprite(healthTxr, whiteBox, new Vector2(1190, 0)));
             healthSprites.Add(new HealthSprite(healthTxr, whiteBox, new Vector2(1220, 0)));
@@ -129,6 +132,11 @@ namespace AGamersGame
                 levelNumber = 2;
                 playerSprite.ResetPlayer(new Vector2(50, 50));
             }
+            if (Keyboard.GetState().IsKeyDown(Keys.Home))
+            {
+                levelNumber = 3;
+                playerSprite.ResetPlayer(new Vector2(50, 50));
+            }
 
 
             playerSprite.Update(gameTime, levels[levelNumber], badSprite1[levelNumber], doorSprite, keySprite[levelNumber],nextSprite,spikeSprites[levelNumber],wallSprites[levelNumber],arrowSprites[levelNumber],badSprite2[levelNumber]) ;
@@ -147,6 +155,10 @@ namespace AGamersGame
             {
                 doorSprite.Move(new Vector2(1200, 475));
                 nextSprite.level3();
+            }
+            if(levelNumber == 3)
+            {
+                doorSprite.Move(new Vector2(-200, -200));
             }
 
 
@@ -247,7 +259,7 @@ namespace AGamersGame
                 lives--;
             }
 
-
+            playTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
 
             base.Update(gameTime);
@@ -267,13 +279,27 @@ namespace AGamersGame
             {
                 _spriteBatch.Draw(backgroundTxr2, new Rectangle(0, 0, screenSize.X, screenSize.Y), Color.White);
             }
-            else
+            else if(levelNumber ==2)
             {
-                _spriteBatch.Draw(backgroundTxr1, new Rectangle(0, 0, screenSize.X, screenSize.Y), Color.White);
+                _spriteBatch.Draw(backgroundTxr3, new Rectangle(0, 0, screenSize.X, screenSize.Y), Color.White);
             }
-
-
-           if(levelNumber == 0) backSprite.Draw(_spriteBatch, gameTime);
+            else if(levelNumber ==3)
+            {
+                _spriteBatch.Draw(backgroundTxr4, new Rectangle(0, 0, screenSize.X, screenSize.Y), Color.White);
+                playerSprite.Stop();
+                foreach (BadSprite1 badguy in badSprite1[levelNumber]) badguy.Win();
+            }
+            //Setting backgroun animation for lev1 and 2
+            if (levelNumber == 0)
+            {
+                backSprite.Draw(_spriteBatch, gameTime);
+                backSprite.move1();
+            }
+            if (levelNumber == 2)
+            {
+                backSprite.Draw(_spriteBatch, gameTime);
+                backSprite.move2(new Vector2(1201, 419));
+            }
 
             foreach (BadSprite1 badSprite in badSprite1[levelNumber]) badSprite.Draw(_spriteBatch, gameTime);
 
@@ -293,7 +319,10 @@ namespace AGamersGame
             playerSprite.Draw(_spriteBatch, gameTime);
 
 
-            foreach (PlatformSprite platform in levels[levelNumber]) platform.Draw(_spriteBatch, gameTime);
+            if (levelNumber < 3)
+            {
+                foreach (PlatformSprite platform in levels[levelNumber]) platform.Draw(_spriteBatch, gameTime);
+            }
             foreach (WallSprite walls in wallSprites[levelNumber]) walls.Draw(_spriteBatch, gameTime);
 
             foreach (ArrowSprite arrow in arrowSprites[levelNumber]) arrow.Draw(_spriteBatch, gameTime);
@@ -327,6 +356,35 @@ namespace AGamersGame
                 foreach (BadSprite2 badguy in badSprite2[2]) badguy.Alive();
 
             }
+
+            if (levelNumber < 3)
+            {
+                _spriteBatch.DrawString(uiFont, "Level: " + (levelNumber + 1), new Vector2(12, 12), Color.Black);
+
+                _spriteBatch.DrawString(uiFont, "Level: " + (levelNumber + 1), new Vector2(10, 10), Color.White);
+            }
+            else if(levelNumber ==3)
+            {
+                _spriteBatch.DrawString(uiFont, "Level: END" , new Vector2(12, 12), Color.Black);
+
+                _spriteBatch.DrawString(uiFont, "Level: END", new Vector2(10, 10), Color.White);
+
+                _spriteBatch.DrawString(bigFont, "YOU WIN", new Vector2(377, 147), Color.Cyan);
+
+                _spriteBatch.DrawString(bigFont, "YOU WIN", new Vector2(378, 148), Color.HotPink);
+
+                _spriteBatch.DrawString(bigFont, "YOU WIN", new Vector2(380, 150), Color.Yellow);
+
+                _spriteBatch.DrawString(uiFont, "Press ESC To Quit", new Vector2(737, 297), Color.Cyan);
+
+                _spriteBatch.DrawString(uiFont, "Press ESC To Quit", new Vector2(738, 298), Color.HotPink);
+
+                _spriteBatch.DrawString(uiFont, "Press ESC To Quit", new Vector2(740, 300), Color.Yellow);
+
+            }
+            _spriteBatch.DrawString(uiFont, "Time: " + Math.Round(playTime), new Vector2(10, 32), Color.Black);
+
+            _spriteBatch.DrawString(uiFont, "Time: " + Math.Round(playTime), new Vector2(10, 30), Color.White);
 
             _spriteBatch.End();
 
@@ -458,6 +516,9 @@ namespace AGamersGame
             levels[2].Add(new PlatformSprite(platformTxr, whiteBox, new Vector2(1125, 260)));
             levels[2].Add(new PlatformSprite(platformTxr, whiteBox, new Vector2(1225, 260)));
 
+            levels.Add(new List<PlatformSprite>());
+            levels[3].Add(new PlatformSprite(platformTxr, whiteBox, new Vector2(50, 250)));
+            levels[3].Add(new PlatformSprite(platformTxr, whiteBox, new Vector2(1200, 250)));
 
         }
 
@@ -541,6 +602,9 @@ namespace AGamersGame
             wallSprites[2].Add(new WallSprite(wallTxr, whiteBox, new Vector2(325, 260)));
 
             wallSprites[2].Add(new WallSprite(wallTxr, whiteBox, new Vector2(475, 410)));
+
+            wallSprites.Add(new List<WallSprite>());
+            wallSprites[3].Add(new WallSprite(wallTxr, whiteBox, new Vector2(-200, -100)));
         }
         
 
@@ -557,6 +621,9 @@ namespace AGamersGame
             badSprite1.Add(new List<BadSprite1>());
             badSprite1[2].Add(new BadSprite1(badG1Txr, whiteBox, new Vector2(1050, 250)));
 
+            badSprite1.Add(new List<BadSprite1>());
+            badSprite1[3].Add(new BadSprite1(badG1Txr, whiteBox, new Vector2(1200, 50)));
+
 
             badSprite2.Add(new List<BadSprite2>());
             badSprite2[0].Add(new BadSprite2(badG2Txr, whiteBox, new Vector2(2000, -100)));
@@ -566,6 +633,9 @@ namespace AGamersGame
 
             badSprite2.Add(new List<BadSprite2>());
             badSprite2[2].Add(new BadSprite2(badG2Txr, whiteBox, new Vector2(750, 400)));
+
+            badSprite2.Add(new List<BadSprite2>());
+            badSprite2[3].Add(new BadSprite2(badG2Txr, whiteBox, new Vector2(2000, 400)));
         }
 
         void AddKeys()
@@ -574,10 +644,13 @@ namespace AGamersGame
             keySprite[0].Add(new KeySprite(keyTxr,whiteBox,new Vector2(30, 298)));
 
             keySprite.Add(new List<KeySprite>());
-            keySprite[1].Add(new KeySprite(keyTxr, whiteBox, new Vector2(40, 250)));
+            keySprite[1].Add(new KeySprite(keyTxr, whiteBox, new Vector2(100, 350)));
 
             keySprite.Add(new List<KeySprite>());
             keySprite[2].Add(new KeySprite(keyTxr, whiteBox, new Vector2(1000, 50)));
+
+            keySprite.Add(new List<KeySprite>());
+            keySprite[3].Add(new KeySprite(keyTxr, whiteBox, new Vector2(-100, -100)));
         }
 
         void AddSpike()
@@ -598,6 +671,9 @@ namespace AGamersGame
 
             spikeSprites.Add(new List<SpikeSprite>());
             spikeSprites[2].Add(new SpikeSprite(fallTxr, whiteBox, new Vector2(-100, -100), 10f));
+            
+            spikeSprites.Add(new List<SpikeSprite>());
+            spikeSprites[3].Add(new SpikeSprite(fallTxr, whiteBox, new Vector2(-100, -100), 10f));
         }
 
         void AddArrows()
@@ -615,7 +691,8 @@ namespace AGamersGame
             arrowSprites[2].Add(new ArrowSprite(arrowTxr, whiteBox, new Vector2(1280, 350), (float)speed, false));
             arrowSprites[2].Add(new ArrowSprite(arrowTxr, whiteBox, new Vector2(0, 475), (float)speed, true));
 
-
+            arrowSprites.Add(new List<ArrowSprite>());
+            arrowSprites[3].Add(new ArrowSprite(arrowTxr, whiteBox, new Vector2(-100, -100), (float)speed, false));
 
         }
 
@@ -631,6 +708,9 @@ namespace AGamersGame
             navSprites.Add(new List<navSprite>());
             navSprites[2].Add(new navSprite(blankTxr, wallTxr, new Vector2(1100, 475)));
             navSprites[2].Add(new navSprite(blankTxr, wallTxr, new Vector2(550, 475)));
+
+            navSprites.Add(new List<navSprite>());
+            navSprites[3].Add(new navSprite(blankTxr, wallTxr, new Vector2(-200, -200)));
 
 
         }

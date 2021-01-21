@@ -72,6 +72,16 @@ namespace AGamersGame
             animations[6].Add(new Rectangle(200, 50, 50, 50));
             animations[6].Add(new Rectangle(250, 50, 50, 50));
 
+            animations.Add(new List<Rectangle>());//End Anim
+            animations[7].Add(new Rectangle(301, 0, 50, 50));
+            animations[7].Add(new Rectangle(350, 0, 50, 50));
+            animations[7].Add(new Rectangle(300, 50, 50, 50));
+            animations[7].Add(new Rectangle(350, 50, 50, 50));
+            animations[7].Add(new Rectangle(300, 50, 50, 50));
+            animations[7].Add(new Rectangle(350, 50, 50, 50));
+            animations[7].Add(new Rectangle(301, 0, 50, 50));
+            animations[7].Add(new Rectangle(350, 0, 50, 50));
+
 
             attack = false;
             sprint = false;
@@ -142,7 +152,7 @@ namespace AGamersGame
                     spriteVelocity.X = 0;
                 }
 
-                if (keyboardState.IsKeyDown(Keys.F))
+                if (keyboardState.IsKeyDown(Keys.F)&& !falling)
                 {
                     attack = true;
                     walking = false;
@@ -150,7 +160,7 @@ namespace AGamersGame
                     block = false;
                     spriteVelocity.X = 0;
                 }
-                if (keyboardState.IsKeyDown(Keys.E))
+                if (keyboardState.IsKeyDown(Keys.E)&& !falling)
                 {
                     attack = false;
                     walking = false;
@@ -391,6 +401,7 @@ namespace AGamersGame
             else if (jumping) setAnim(2);
             else if (attack) setAnim(5);
             else if (block) setAnim(6);
+            else if (stop) setAnim(7);
             else setAnim(0);
 
 
@@ -517,6 +528,7 @@ namespace AGamersGame
         public void Stop()
         {
             stop = true;
+            frameTime = 0.6f;
         }
 
     }

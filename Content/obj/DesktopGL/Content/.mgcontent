@@ -6,10 +6,14 @@
   <SourceFiles>
     <File>C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/Arrow.png</File>
     <File>C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/BackAnim.png</File>
+    <File>C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/backAnim2.png</File>
     <File>C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/Background1.png</File>
     <File>C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/Background2.png</File>
+    <File>C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/Background3.png</File>
+    <File>C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/Background4.png</File>
     <File>C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/BadGuySheet1.png</File>
     <File>C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/BadGuySheet2.png</File>
+    <File>C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/BigFont.spritefont</File>
     <File>C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/Blank.png</File>
     <File>C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/Door.png</File>
     <File>C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/FallTxr.png</File>
@@ -17,9 +21,15 @@
     <File>C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/LivesSheet.png</File>
     <File>C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/PlatSheet1.png</File>
     <File>C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/SpriteSheetT.png</File>
+    <File>C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/UiFont.spritefont</File>
     <File>C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/WallSheet.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

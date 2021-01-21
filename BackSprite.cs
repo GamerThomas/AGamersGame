@@ -12,51 +12,44 @@ namespace AGamersGame
 {
     class BackSprite : Sprite
     {
-        int lev;
-        public BackSprite(Texture2D newSpriteSheet, Texture2D newCollisionTxr, Vector2 newLocation,int levNum) : base(newSpriteSheet, newCollisionTxr, newLocation)
+        Vector2 startPos;
+        public BackSprite(Texture2D newSpriteSheet, Texture2D newCollisionTxr, Vector2 newLocation) : base(newSpriteSheet, newCollisionTxr, newLocation)
         {
             spriteOrigin = new Vector2(0f, 0f);
             isColliding = true;
 
             collisionInsetMin = new Vector2();
             collisionInsetMax = new Vector2();
-            lev = levNum;
 
-            if (lev == 0)
-            {
-                frameTime = 1f;
-                animations = new List<List<Rectangle>>();
+            startPos = newLocation;
 
-                animations.Add(new List<Rectangle>());
-                animations[0].Add(new Rectangle(0, 0, 250, 115));
-                animations[0].Add(new Rectangle(250, 0, 250, 115));
-                animations[0].Add(new Rectangle(500, 0, 250, 115));
-                animations[0].Add(new Rectangle(750, 0, 250, 115));
-            }
-            else if(lev == 1)
-            {
-                frameTime = 1f;
-                animations = new List<List<Rectangle>>();
+            frameTime = 1f;
+            animations = new List<List<Rectangle>>();
+            animations.Add(new List<Rectangle>());
+            animations[0].Add(new Rectangle(0, 0, 250, 115));
+            animations[0].Add(new Rectangle(250, 0, 250, 115));
+            animations[0].Add(new Rectangle(500, 0, 250, 115));
+            animations[0].Add(new Rectangle(750, 0, 250, 115));
 
-                animations.Add(new List<Rectangle>());
-                animations[0].Add(new Rectangle(0, 0, 0, 0));
-            }
-            else if(lev ==2)
-            {
+            animations.Add(new List<Rectangle>());
+            animations[1].Add(new Rectangle(1000, 0, 70, 65));
+            animations[1].Add(new Rectangle(1070, 0, 70, 65));
+            animations[1].Add(new Rectangle(1140, 0, 70, 65));
 
-            }
-            else if(lev == 3)
-            {
 
-            }
-            else if(lev == 4)
-            {
-                frameTime = 1f;
-                animations = new List<List<Rectangle>>();
 
-                animations.Add(new List<Rectangle>());
-                animations[0].Add(new Rectangle(0, 0, 0, 0));
-            }
+        }
+
+        public void move2(Vector2 newPos)
+        {
+            spritePos = newPos;
+            setAnim(1);
+        }
+
+        public void move1()
+        {
+            spritePos = startPos;
+            setAnim(0);
         }
     }
 }

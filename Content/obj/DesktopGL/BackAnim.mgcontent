@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <SourceFile>C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/BackAnim.png</SourceFile>
-  <SourceTime>2020-11-26T11:41:46.4815137+00:00</SourceTime>
+  <SourceTime>2021-01-14T15:40:51.9567862+00:00</SourceTime>
   <DestFile>C:/Users/PCLT/source/repos/AGamersGame/AGamersGame/Content/bin/DesktopGL/BackAnim.xnb</DestFile>
-  <DestTime>2021-01-12T14:17:37.9631569+00:00</DestTime>
+  <DestTime>2021-01-14T17:34:10.9917887+00:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2020-08-10T16:17:54+01:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

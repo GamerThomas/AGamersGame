@@ -30,12 +30,19 @@ namespace AGamersGame
 
         Vector2 attackHitMin = new Vector2(0.01f,0.1f);
         Vector2 attackHitMax = new Vector2(0.01f,0.1f);
+
+        SoundEffect jumpSound, attackSound, deathSound;
         
-        public PlayerSprite(Texture2D newSpriteSheet, Texture2D newCollisionTxr, Vector2 newLocation) : base(newSpriteSheet, newCollisionTxr, newLocation)
+        public PlayerSprite(Texture2D newSpriteSheet, Texture2D newCollisionTxr, Vector2 newLocation,SoundEffect jump,SoundEffect attackFx, SoundEffect death) : base(newSpriteSheet, newCollisionTxr, newLocation)
         {
             spriteOrigin = new Vector2(0.5f, 1f);
             isColliding = true;
             //drawCollision = true;
+
+            jumpSound = jump;
+            attackSound = attackFx;
+            deathSound = death;
+
 
             collisionInsetMin = NormalCollisonMin;
             collisionInsetMax = NormalCollisonMax;
@@ -107,6 +114,7 @@ namespace AGamersGame
                     walking = false;
                     falling = false;
                     spriteVelocity.Y -= jumpSpeed;
+                    jumpSound.Play();
                 }
                 else if (jumpIsPressed && !jumping && !falling && !(keyboardState.IsKeyDown(Keys.Space)))
                 {
@@ -374,6 +382,7 @@ namespace AGamersGame
             if (checkCollisionBelow(nextLev))
             {
                 nextLevel = true;
+
             }
             else if (checkCollisionAbove(nextLev))
             {
@@ -391,8 +400,7 @@ namespace AGamersGame
             {
                 nextLevel = false;
             }
-
-
+            
             if (!hasCollided && (walking || sprint)) falling = true;
 
             if (walking) setAnim(3);
@@ -505,8 +513,14 @@ namespace AGamersGame
                 }
             }
 
-
-            
+            if(playerDead)
+            {
+                deathSound.Play();
+            }
+            else if(attack)
+            {
+                attackSound.Play();
+            }
 
 
         }

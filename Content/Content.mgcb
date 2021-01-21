@@ -25,6 +25,12 @@
 /processorParam:TextureFormat=Color
 /build:Arrow.png
 
+#begin AttackSound.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:AttackSound.wav
+
 #begin BackAnim.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -140,6 +146,12 @@
 /processorParam:TextureFormat=Color
 /build:Blank.png
 
+#begin DeathSound.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:DeathSound.wav
+
 #begin Door.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -163,6 +175,12 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:FallTxr.png
+
+#begin jump.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:jump.wav
 
 #begin KeySheet.png
 /importer:TextureImporter

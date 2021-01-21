@@ -23,6 +23,8 @@ namespace AGamersGame
 
         SpriteFont uiFont,bigFont;
 
+        SoundEffect jump, attack, death;
+
         Texture2D playerTxr, backgroundTxr1, backgroundTxr2,backgroundTxr3,backgroundTxr4, whiteBox, platformTxr, backTxr, backTxr2,badG1Txr, keyTxr, doorTxr, blankTxr, healthTxr, fallTxr,wallTxr,arrowTxr,badG2Txr;
 
         Point screenSize = new Point(1280, 500);
@@ -51,7 +53,7 @@ namespace AGamersGame
 
         float playTime = 0;
 
-
+        bool win = false;
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -90,6 +92,9 @@ namespace AGamersGame
             arrowTxr = Content.Load<Texture2D>("Arrow");
             uiFont = Content.Load<SpriteFont>("UiFont");
             bigFont = Content.Load<SpriteFont>("BigFont");
+            jump = Content.Load<SoundEffect>("jump");
+            attack = Content.Load<SoundEffect>("AttackSound");
+            death = Content.Load<SoundEffect>("DeathSound");
 
 
             whiteBox = new Texture2D(GraphicsDevice, 1, 1);
@@ -98,7 +103,7 @@ namespace AGamersGame
 
 
 
-            playerSprite = new PlayerSprite(playerTxr, whiteBox, new Vector2(50, 50));
+            playerSprite = new PlayerSprite(playerTxr, whiteBox, new Vector2(50, 50),jump,attack,death);
             doorSprite = new DoorSprite(doorTxr, whiteBox, new Vector2(1205, 300));
             nextSprite = new NextSprite(blankTxr, whiteBox, new Vector2(1260, 300));
             backSprite = new BackSprite(backTxr, whiteBox, new Vector2(780, 135));
@@ -711,9 +716,6 @@ namespace AGamersGame
 
             navSprites.Add(new List<navSprite>());
             navSprites[3].Add(new navSprite(blankTxr, wallTxr, new Vector2(-200, -200)));
-
-
         }
-
     }
 }
